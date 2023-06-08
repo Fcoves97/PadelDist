@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">PadelDist</string>
+    <string name="user">Username</string>
+    <string name="password">Password</string>
+    <string name="registrarse_msg">¿No tienes una cuenta?</string>
+    <string name="registrate_msg"><u>Regístrate</u></string>
+    <string name="Registrarse_msg">Registrarse</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="nivel_en_pista_msg">Level</string>
+    <string name="beginner_msg">Beginner</string>
+    <string name="medium_msg">Medium</string>
+    <string name="expert_msg">Expert</string>
+    <string name="right_position_msg">Right</string>
+    <string name="left_position_msg">Left</string>
+    <string name="court_location_msg">Court Location</string>
+    <string name="aceptar_msg">ACEPTAR</string>
+    <string name="e_mail_hint_msg">E-mail</string>
+    <string name="Email_verification_title_msg">Confirma tu correo electrónico</string>
+    <string name="volver_msg">VOLVER</string>
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
+    <string name="Horarios">Horarios</string>
+    <string name="Reservas">Reservas</string>
+    <string name="pistas">Pistas</string>
+    <string name="partidas">Partidas</string>
+    <string name="Ajustes">Ajustes</string>
+    <string name="perfil">Perfil</string>
+    <string name="Bienvenido">¡ BIENVENIDO !</string>
+    <string name="Bienvenido_msg">¡ BIENVENIDO !</string>
+    <string name="Bienvenido_text">En PadelDist puedes reservar pistas para jugar con tus amigos con la mayor facilidad. Así como muchas otras cosas. ¡Diviértete!</string>
+    <string name="Timetable_msg">Puedes comprobar el horario de cada pista en el apartado de Pistas</string>
+    <string name="title_activity_pistas_screen">PistasScreen</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_transform">Transform</string>
+    <string name="menu_reflow">Reflow</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_settings">Settings</string>
+
+    <string name="lorem_ipsum_title">Lorem Ipsum"</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply placeholder text of the printing and
+        typesetting industry. Lorem Ipsum has been the industry\'s standard placeholder text ever
+        since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+        type specimen book"
+    </string>
+    <string name="fab_content_description">Represents a view to invoke an action</string>
+    <string name="image_view_item_transform_content_description">Represents an image view in the
+        item
+    </string>
+
+    <string name="select_date_prompt">Selecciona una fecha</string>
+    <string name="select_day_prompt">Selecciona un día</string>
+    <string name="show_results">Ver resultados</string>
+</resources>

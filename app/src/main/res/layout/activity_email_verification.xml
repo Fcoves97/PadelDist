@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_screen_background_image"
+    tools:context=".EmailVerificationScreen">
+
+    <View
+        android:id="@+id/vwRegister"
+        android:layout_width="300sp"
+        android:layout_height="250sp"
+        android:background="@drawable/rounded_border"
+        android:radius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.496" />
+
+    <TextView
+        android:id="@+id/etEmailVerification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Email_verification_title_msg"
+        android:textColor="@color/customWhite"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toTopOf="@+id/vwRegister"
+        app:layout_constraintVertical_bias="0.107" />
+
+    <TextView
+        android:id="@+id/etEmailVerificationText"
+        android:layout_width="254dp"
+        android:layout_height="92dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lineSpacingExtra="8dp"
+        android:maxLines="4"
+        android:text="Se ha enviado un correo electrónico de confirmación a la dirección de correo: TestEmail"
+        android:textColor="@color/customWhite"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/etEmailVerification"
+        app:layout_constraintVertical_bias="0.277" />
+
+    <Button
+        android:id="@+id/btnAccept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/volver_msg"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/etEmailVerificationText"
+        app:layout_constraintVertical_bias="0.379" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

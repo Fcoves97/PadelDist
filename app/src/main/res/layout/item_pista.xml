@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="143dp"
+        android:layout_height="153dp"
+        android:background="@drawable/image_style"
+        app:layout_constraintBottom_toBottomOf="@+id/vwPistasDescription"
+        app:layout_constraintEnd_toEndOf="@+id/vwPistasDescription"
+        app:layout_constraintStart_toStartOf="@+id/vwPistasDescription"
+        app:layout_constraintTop_toTopOf="@+id/vwPistasDescription"
+        app:layout_constraintVertical_bias="0.197">
+
+        <ImageView
+                android:id="@+id/imagePista"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:background="@drawable/image_style"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pista_image" />
+
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/vwPistasDescription"
+        android:layout_width="173dp"
+        android:layout_height="310dp"
+        android:background="@drawable/rounded_border"
+        android:radius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.038" />
+
+    <TextView
+        android:id="@+id/tvNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pista 1"
+        android:textColor="@color/customWhite"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/vwPistasDescription"
+        app:layout_constraintEnd_toEndOf="@+id/vwPistasDescription"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="@+id/vwPistasDescription"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintVertical_bias="0.137" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_screen_background_image"
+    tools:context=".TimeTableScreen">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dlMenu"
+        android:layout_width="270dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <include layout="@layout/menu_layout" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+    <View
+        android:id="@+id/vwTimeTable"
+        android:layout_width="315dp"
+        android:layout_height="539dp"
+        android:background="@drawable/rounded_border"
+        android:radius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+    </View>
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="265dp"
+        android:layout_height="404dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/vwTimeTable"
+        app:layout_constraintEnd_toEndOf="@+id/vwTimeTable"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="@+id/vwTimeTable"
+        app:layout_constraintTop_toTopOf="@+id/vwTimeTable"
+        app:layout_constraintVertical_bias="0.239">
+
+        <!-- Encabezado de la tabla -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="D I A"
+                android:textColor="@color/customWhite"
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="H O R A R I O"
+                android:textColor="@color/customWhite"
+                android:textSize="18dp" />
+        </TableRow>
+
+        <!-- Filas de la tabla -->
+        <TableRow>
+            <!-- Columna del lunes -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Lunes"
+                android:textColor="@color/customWhite" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="9:00 - 10:00"
+                android:textColor="@color/customWhite" />
+        </TableRow>
+
+        <TableRow>
+            <!-- Columna del lunes -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Martes"
+                android:textColor="@color/customWhite" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="9:00 - 10:00"
+                android:textColor="@color/customWhite" />
+        </TableRow>
+
+        <TableRow>
+            <!-- Columna del lunes -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Miércoles"
+                android:textColor="@color/customWhite" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="9:00 - 10:00"
+                android:textColor="@color/customWhite" />
+        </TableRow>
+
+        <TableRow>
+            <!-- Columna del lunes -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Jueves"
+                android:textColor="@color/customWhite" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="9:00 - 10:00"
+                android:textColor="@color/customWhite" />
+        </TableRow>
+
+        <TableRow>
+            <!-- Columna del lunes -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Viernes"
+                android:textColor="@color/customWhite" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="9:00 - 10:00"
+                android:textColor="@color/customWhite" />
+        </TableRow>
+
+        <TableRow android:layout_height="wrap_content">
+            <!-- Columna del lunes -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Sábado"
+                android:textColor="@color/customWhite" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="9:00 - 10:00"
+                android:textColor="@color/customWhite" />
+        </TableRow>
+
+        <!-- Agrega filas similares para los demás días y horarios -->
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/tvBienvenido_text"
+        android:layout_width="266dp"
+        android:layout_height="75dp"
+        android:gravity="center"
+        android:lineSpacingExtra="9dp"
+        android:text="@string/Timetable_msg"
+        android:textColor="@color/customWhite"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwTimeTable"
+        app:layout_constraintEnd_toEndOf="@+id/vwTimeTable"
+        app:layout_constraintStart_toStartOf="@+id/vwTimeTable"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

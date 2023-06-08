@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_screen_background_image"
+    tools:context=".RegisterScreen">
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="91dp"
+        android:layout_height="40dp"
+        android:text="@string/volver_msg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vwRegister"
+        app:layout_constraintVertical_bias="0.636" />
+
+    <View
+        android:id="@+id/vwRegister"
+        android:layout_width="336dp"
+        android:layout_height="618dp"
+        android:background="@drawable/rounded_border"
+        android:radius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.256" />
+
+    <TextView
+        android:id="@+id/etRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Registrarse_msg"
+        android:textColor="@color/customWhite"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toTopOf="@+id/vwRegister"
+        app:layout_constraintVertical_bias="0.039" />
+
+    <EditText
+        android:id="@+id/etUser"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/customWhite"
+        android:hint="@string/user"
+        android:textAlignment="center"
+        android:textColor="@color/customWhite"
+        android:textColorHint="@color/customWhite"
+        android:textSize="15sp"
+        android:tooltipText="Usuario"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/etRegister"
+        app:layout_constraintVertical_bias="0.034" />
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/customWhite"
+        android:hint="@string/e_mail_hint_msg"
+        android:textAlignment="center"
+        android:textColor="@color/customWhite"
+        android:textColorHint="@color/customWhite"
+        android:textSize="15sp"
+        android:tooltipText="Introduce tu correo electrónico"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/etUser"
+        app:layout_constraintVertical_bias="0.028" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="156dp"
+        android:backgroundTint="@color/customWhite"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColor="@color/customWhite"
+        android:textColorHint="@color/customWhite"
+        android:textSize="15sp"
+        android:tooltipText="Introduce una contraseña"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/etEmail"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <ImageButton
+        android:id="@+id/btnShowPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:src="@drawable/closed_eye_password_24"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.368"
+        app:layout_constraintStart_toEndOf="@+id/etPassword"
+        app:layout_constraintTop_toTopOf="@+id/vwRegister"
+        app:layout_constraintVertical_bias="0.352" />
+
+    <EditText
+        android:id="@+id/etPassword2"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/customWhite"
+        android:hint="@string/repeat_password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColor="@color/customWhite"
+        android:textColorHint="@color/customWhite"
+        android:textSize="15sp"
+        android:tooltipText="Repite la contraseña"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword"
+        app:layout_constraintVertical_bias="0.034" />
+
+    <TextView
+        android:id="@+id/tvPosition"
+        android:layout_width="110dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="208dp"
+        android:text="@string/court_location_msg"
+        android:textColor="@color/customWhite"
+        android:textSize="16sp"
+        android:tooltipText="Posición en la pista"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword2"
+        app:layout_constraintVertical_bias="0.178" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="188dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="230dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/tvPosition">
+
+        <RadioGroup
+            android:id="@+id/rgPosition"
+            android:layout_width="187dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="250dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+            app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+            app:layout_constraintStart_toStartOf="@+id/vwRegister"
+            app:layout_constraintTop_toBottomOf="@+id/tvPosition">
+
+            <RadioButton
+                android:id="@+id/rbLeft"
+                android:layout_width="104dp"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/lightBrown"
+                android:paddingStart="5sp"
+                android:text="@string/left_position_msg"
+                android:textColor="@color/customWhite"
+                android:tooltipText="Revés" />
+
+            <RadioButton
+                android:id="@+id/rbRight"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/lightBrown"
+                android:paddingStart="5sp"
+                android:text="@string/right_position_msg"
+                android:textColor="@color/customWhite"
+                android:tooltipText="Derecha" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        android:text="@string/nivel_en_pista_msg"
+        android:textColor="@color/customWhite"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.062" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="298dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="110dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toTopOf="@+id/textView">
+
+        <RadioGroup
+            android:id="@+id/rgLevels"
+            android:layout_width="298dp"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+            app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+            app:layout_constraintStart_toStartOf="@+id/vwRegister"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+            <RadioButton
+                android:id="@+id/rbBeginner"
+                android:layout_width="104dp"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/lightBrown"
+                android:paddingStart="5sp"
+                android:text="@string/beginner_msg"
+                android:textColor="@color/customWhite" />
+
+            <RadioButton
+                android:id="@+id/rbExpert"
+                android:layout_width="92dp"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/lightBrown"
+                android:paddingStart="5sp"
+                android:text="@string/expert_msg"
+                android:textColor="@color/customWhite" />
+
+            <RadioButton
+                android:id="@+id/rbMedium"
+                android:layout_width="103dp"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/lightBrown"
+                android:paddingStart="5sp"
+                android:text="@string/medium_msg"
+                android:textColor="@color/customWhite"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnAccept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/aceptar_msg"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.377" />
+
+    <TextView
+        android:id="@+id/tvMistakes"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/errorColor"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/btnAccept" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

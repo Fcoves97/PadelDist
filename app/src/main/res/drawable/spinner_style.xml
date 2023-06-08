@@ -1,0 +1,9 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white" /> <!-- Color de fondo blanco -->
+            <corners android:radius="4dp" /> <!-- Radio de las esquinas, ajusta el valor según tus preferencias -->
+        </shape>
+    </item>
+    <item android:drawable="@drawable/down_arrow" /> <!-- Icono de flecha de selección -->
+</layer-list>

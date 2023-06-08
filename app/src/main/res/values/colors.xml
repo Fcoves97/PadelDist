@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="darkerBrown">#5C472F</color>
+    <color name="darkBrown">#52A98A49</color>
+    <color name="lightBrown">#C49D57</color>
+    <color name="lighterBrown">#7E725C</color>
+    <color name="customWhite">#F9FEF8</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="hintColor">#D0C5C5</color>
+    <color name="errorColor">#A02626</color>
+</resources>

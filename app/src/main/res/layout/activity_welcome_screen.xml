@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@drawable/login_screen_background_image"
+    tools:context=".WelcomeScreen">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dlMenu"
+        android:layout_width="270dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <include layout="@layout/menu_layout" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+    <View
+        android:id="@+id/vwRegister"
+        android:layout_width="306dp"
+        android:layout_height="542dp"
+        android:background="@drawable/rounded_border"
+        android:radius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+    </View>
+
+    <TextView
+        android:id="@+id/tvBienvenido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Bienvenido_msg"
+        android:textColor="@color/customWhite"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toTopOf="@+id/vwRegister"
+        app:layout_constraintVertical_bias="0.067" />
+
+    <TextView
+        android:id="@+id/tvBienvenido_text"
+        android:layout_width="240dp"
+        android:layout_height="141dp"
+        android:gravity="center"
+        android:lineSpacingExtra="9dp"
+        android:text="@string/Bienvenido_text"
+        android:textColor="@color/customWhite"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/tvBienvenido"
+        app:layout_constraintVertical_bias="0.111" />
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="130dp"
+        android:layout_height="124dp"
+        android:adjustViewBounds="true"
+        android:rotation="5"
+        android:scaleType="centerCrop"
+        android:src="@drawable/default_user_image"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/tvBienvenido_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
