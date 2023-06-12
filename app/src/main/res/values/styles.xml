@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Definir un tema base sin ActionBar -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Otros atributos del tema si los necesitas -->
+    <!-- Estilo para el tema claro -->
+    <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Personaliza los atributos del tema claro aquí -->
+        <item name="colorPrimary">@color/lightBrown</item>
+        <item name="colorPrimaryDark">@color/lighterBrown</item>
+        <item name="colorAccent">@color/darkBrown</item>
+        <!-- Otros atributos del tema claro -->
     </style>
+
+    <!-- Estilo para el tema oscuro -->
+    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Personaliza los atributos del tema oscuro aquí -->
+        <item name="colorPrimary">@color/darkerBrown</item>
+        <item name="colorPrimaryDark">@color/darkBrown2</item>
+        <item name="colorAccent">@color/darkBrown3</item>
+        <!-- Otros atributos del tema oscuro -->
+    </style>
+
+    <style name="SeekBarStyle">
+        <item name="colorControlNormal">#F9FEF8</item> <!-- Color de la línea normal -->
+        <item name="colorControlActivated">#C49D57</item> <!-- Color de la línea cuando está activada -->
+    </style>
+
 </resources>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="darkBrown3">#221E1E</color>
+    <color name="darkBrown2">#362D2D</color>
     <color name="darkerBrown">#5C472F</color>
     <color name="darkBrown">#52A98A49</color>
     <color name="lightBrown">#C49D57</color>

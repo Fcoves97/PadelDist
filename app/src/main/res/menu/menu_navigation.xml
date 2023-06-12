@@ -1,7 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single"
         android:menuCategory="secondary">
-        <item android:title="@string/Horarios" />
+        <item
+            android:id="@+id/navHorarios"
+            android:title="@string/Horarios" />
         <item
             android:id="@+id/navReservas"
             android:title="@string/Reservas" />
@@ -11,6 +13,33 @@
         <item
             android:id="@+id/navPartidas"
             android:title="@string/partidas" />
+        <item
+            android:id="@+id/navHistorialDeReservas"
+            android:title="@string/historial_de_reservas" />
+        <item
+            android:id="@+id/menu_separator2"
+            android:title=""
+            android:enabled="false"
+            android:checkable="false"
+            android:actionLayout="@layout/menu_footer_layout" />
+        <item
+            android:id="@+id/menu_separator3"
+            android:title=""
+            android:enabled="false"
+            android:checkable="false"
+            android:actionLayout="@layout/menu_footer_layout" />
+        <item
+            android:id="@+id/menu_separator4"
+            android:title=""
+            android:enabled="false"
+            android:checkable="false"
+            android:actionLayout="@layout/menu_footer_layout" />
+        <item
+            android:id="@+id/menu_separator5"
+            android:title=""
+            android:enabled="false"
+            android:checkable="false"
+            android:actionLayout="@layout/menu_footer_layout" />
         <item
             android:id="@+id/navAjustes"
             android:title="@string/Ajustes" />

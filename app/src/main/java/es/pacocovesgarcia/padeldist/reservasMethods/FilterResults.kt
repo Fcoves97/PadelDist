@@ -1,23 +1,19 @@
 package es.pacocovesgarcia.padeldist.reservasMethods
 
 import android.content.Context
-import android.widget.AutoCompleteTextView
+import android.widget.CheckBox
 import android.widget.Spinner
 import entities.Pista
 import java.text.SimpleDateFormat
 
-fun FilterResults(spinnerFecha: Spinner, spinnerHora: Spinner, context: Context) : List<Pista>?
+suspend fun FilterResults() : List<Pista>
 {
-    val fechaSeleccionada = spinnerFecha.selectedItem.toString()
-    val formatoFecha = SimpleDateFormat("dd/MM/yyyy")
-    val fecha = formatoFecha.parse(fechaSeleccionada)
+   /* val fechaSeleccionada = spinnerFecha.selectedItem.toString()
+    val spinnerHora = spinnerHora.selectedItem.toString()*/
 
-    val spinnerHora = spinnerHora.selectedItem.toString()
+    var resultados = mutableListOf<Pista>()
 
-    // Realizar la petición con la base de datos utilizando los datos seleccionados
-    val resultados = fecha?.let { searchCourtDatabaseMethod(it, spinnerHora, context) }
+    resultados = searchCourtDatabaseMethod() as MutableList<Pista>
 
-    // Mostrar los resultados en la parte inferior de la pantalla
-    // Puedes utilizar una lista, RecyclerView, o cualquier otro método de visualización de datos
     return resultados
 }

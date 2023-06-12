@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/footer_title"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:textStyle="bold" />
+
+    <!-- Otros elementos de footer -->
+    <!-- Puedes agregar TextViews, Buttons u otros elementos según tus necesidades -->
+
+</LinearLayout>

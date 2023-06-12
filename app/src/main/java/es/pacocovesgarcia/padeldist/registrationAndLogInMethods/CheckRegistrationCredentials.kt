@@ -1,26 +1,34 @@
 package es.pacocovesgarcia.padeldist.registrationAndLogInMethods
 
+import android.util.Log
 import android.util.Patterns
 import android.widget.RadioGroup
 import android.widget.TextView
-import dao.CredencialesUsuarioDao
-import dao.JugadorDao
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.google.firebase.database.*
+import entities.Jugador
+import kotlinx.coroutines.*
 
-suspend fun CheckRegistrationCredentials(UserName: String, Password: String, Password2: String, Email: String,
-                             tvMistakes: TextView, rgLevels: RadioGroup, rgPosition: RadioGroup,
-                             jugadorDao: JugadorDao, credencialesUsuarioDao: CredencialesUsuarioDao)
+suspend fun CheckRegistrationCredentials(
+    UserName: String, Password: String, Password2: String, Email: String,
+    tvMistakes: TextView, rgLevels: RadioGroup, rgPosition: RadioGroup, database: FirebaseDatabase
+)
 : Boolean {
 
 
         val specialCarac = "!@#\$%&*-_.;!?:\\\\/+=~"
         val numberRestric = "0123456789"
 
-        /*if (UserName.isEmpty()) {
+        val jugadoresRef = database.getReference("jugadores")
+        val credencialesUsuarioRef = database.getReference("credenciales_usuarios")
+
+        val existsPlayerName = checkIfUserNameExists(UserName, jugadoresRef)
+        val existsPlayerEmail = checkIfEmailExists(Email, credencialesUsuarioRef)
+
+
+        if (UserName.isEmpty()) {
             tvMistakes.text =("Introduce un nombre de usuario")
             return false
-        }*/
+        }
         if (UserName.any { it in specialCarac } || UserName.any { it in numberRestric } ||
             UserName.contains(" ")) {
             tvMistakes.text =("El nombre no puede contener caracteres especiales, números ni espacios")
@@ -34,25 +42,14 @@ suspend fun CheckRegistrationCredentials(UserName: String, Password: String, Pas
             tvMistakes.text =("El nombre no puede contener más de 15 caracteres")
             return false
         }
-
-        val existsPlayerName = withContext(Dispatchers.IO) {
-            jugadorDao.existsPlayerByName(UserName)
-        }
-
         if (existsPlayerName) {
-            tvMistakes.text =("Ya hay un usuario registrado con este nombre")
+            tvMistakes.text = "Ya hay un usuario registrado con este nombre"
             return false
         }
-
-        val existsEmail = withContext(Dispatchers.IO) {
-            credencialesUsuarioDao.existsEmail(Email)
-        }
-
-        if (existsEmail) {
-            tvMistakes.text =("Ya existe un usuario registrado con este correo electrónico")
+        if (existsPlayerEmail) {
+            tvMistakes.text = "Ya hay existe una cuenta vinculada a este correo"
             return false
         }
-
         if (!Patterns.EMAIL_ADDRESS.matcher(Email).matches()) {
             tvMistakes.text =("Introduce un correo electrónico válido")
             return false
@@ -95,3 +92,50 @@ suspend fun CheckRegistrationCredentials(UserName: String, Password: String, Pas
         }
     return true
 }
+
+suspend fun checkIfUserNameExists(userName: String, jugadoresRef: DatabaseReference): Boolean =
+    suspendCancellableCoroutine { continuation ->
+        val query = jugadoresRef.orderByChild("nombre").equalTo(userName)
+        val listener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                continuation.resume(dataSnapshot.exists())
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                continuation.resume(false)
+            }
+        }
+
+        query.addListenerForSingleValueEvent(listener)
+
+        continuation.invokeOnCancellation {
+            query.removeEventListener(listener)
+        }
+    }
+
+private fun <T> CancellableContinuation<T>.resume(value: T) {
+    if (isActive) {
+        resumeWith(Result.success(value))
+    }
+}
+
+suspend fun checkIfEmailExists(Email: String, credencialesUsuarioRef: DatabaseReference): Boolean =
+    suspendCancellableCoroutine { continuation ->
+        val query = credencialesUsuarioRef.orderByChild("correo").equalTo(Email)
+        val listener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                continuation.resume(dataSnapshot.exists())
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                continuation.resume(false)
+            }
+        }
+
+        query.addListenerForSingleValueEvent(listener)
+
+        continuation.invokeOnCancellation {
+            query.removeEventListener(listener)
+        }
+    }
+

@@ -15,34 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/dlMenu"
-        android:layout_width="270dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-        <include layout="@layout/menu_layout" />
-
-    </androidx.drawerlayout.widget.DrawerLayout>
-
-    <View
-        android:id="@+id/vwTimeTable"
-        android:layout_width="315dp"
-        android:layout_height="539dp"
-        android:background="@drawable/rounded_border"
-        android:radius="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-    </View>
-
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="265dp"
@@ -234,6 +206,20 @@
 
     </TableLayout>
 
+    <View
+        android:id="@+id/vwTimeTable"
+        android:layout_width="315dp"
+        android:layout_height="539dp"
+        android:background="@drawable/rounded_border"
+        android:radius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.673">
+
+    </View>
+
     <TextView
         android:id="@+id/tvBienvenido_text"
         android:layout_width="266dp"
@@ -248,5 +234,36 @@
         app:layout_constraintStart_toStartOf="@+id/vwTimeTable"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/btnOpenMenu"
+        android:layout_width="53dp"
+        android:layout_height="46dp"
+        android:layout_gravity="start"
+        android:background="#30000000"
+        android:padding="15dp"
+        android:contentDescription="Open menu"
+        android:src="@drawable/menu_icon_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dlMenu"
+        android:layout_width="270dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <include layout="@layout/menu_layout" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,8 @@
 package es.pacocovesgarcia.padeldist
 
-import Singletone.JugadorSingletone
-import android.content.Intent
-import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,14 +10,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import database.Padeldist
-import es.pacocovesgarcia.padeldist.imageConversions.byteArrayToBitmap
 import es.pacocovesgarcia.padeldist.menuAndToolbar.SetUpMenuAndToolbar
 
 class WelcomeScreen : AppCompatActivity() {
 
     private lateinit var sideMenu: NavigationView
-    private lateinit var ibMenu: ImageButton
+    private lateinit var btncloseMenu: ImageButton
+    private lateinit var btnOpenMenu: ImageButton
     private lateinit var dlMenu: DrawerLayout
     private lateinit var toolbar: Toolbar
     private lateinit var ivUserImage : ImageView
@@ -31,7 +28,8 @@ class WelcomeScreen : AppCompatActivity() {
 
         // Inicializar variables
         sideMenu = findViewById(R.id.SideMenu)
-        ibMenu = findViewById(R.id.ibMenu)
+        btncloseMenu = findViewById(R.id.btnCloseMenu)
+        btnOpenMenu = findViewById(R.id.btnOpenMenu)
         dlMenu = findViewById(R.id.dlMenu)
         toolbar = findViewById(R.id.toolbar)
         ivUserImage = findViewById(R.id.ivUserImage)
@@ -39,9 +37,9 @@ class WelcomeScreen : AppCompatActivity() {
 
         //Establecer opciones del menú y toolbar
 
-        SetUpMenuAndToolbar(dlMenu,ibMenu,sideMenu,ivUserImage,tvUserName,this)
+        SetUpMenuAndToolbar(dlMenu,btnOpenMenu,sideMenu,ivUserImage,tvUserName,btncloseMenu,this)
 
-        //val menuWidth = sideMenu.layoutParams.width
-        //val menuOpenOffset = menuWidth * 0.8f
+        dlMenu.closeDrawer(GravityCompat.START)
+        dlMenu.visibility = View.INVISIBLE
     }
 }

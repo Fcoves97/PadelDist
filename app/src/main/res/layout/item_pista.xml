@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_marginBottom="30dp"
+    android:layout_height="wrap_content">
 
 
     <androidx.cardview.widget.CardView
@@ -46,7 +47,7 @@
         android:id="@+id/tvNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pista 1"
+        android:text="Pista 2"
         android:textColor="@color/customWhite"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -56,5 +57,18 @@
         app:layout_constraintStart_toStartOf="@+id/vwPistasDescription"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:layout_constraintVertical_bias="0.137" />
+
+    <Button
+        android:id="@+id/btnVerHorarios"
+        android:layout_width="135dp"
+        android:layout_height="49dp"
+        android:text="@string/show_time_table"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwPistasDescription"
+        app:layout_constraintEnd_toEndOf="@+id/vwPistasDescription"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/vwPistasDescription"
+        app:layout_constraintTop_toBottomOf="@+id/tvNombre"
+        app:layout_constraintVertical_bias="0.419" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

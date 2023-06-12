@@ -15,10 +15,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewPistas"
+        android:layout_width="412dp"
+        android:layout_height="579dp"
+        android:layout_marginTop="25dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/btnOpenMenu"
+        android:layout_width="53dp"
+        android:layout_height="46dp"
+        android:layout_gravity="start"
+        android:background="#30000000"
+        android:padding="15dp"
+        android:contentDescription="Open menu"
+        android:src="@drawable/menu_icon_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0" />
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/dlMenu"
-        android:layout_width="270dp"
-        android:layout_height="0dp"
+        android:layout_width="213dp"
+        android:layout_height="631dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -28,17 +57,5 @@
         <include layout="@layout/menu_layout" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewPistas"
-        android:layout_width="410dp"
-        android:layout_height="630dp"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

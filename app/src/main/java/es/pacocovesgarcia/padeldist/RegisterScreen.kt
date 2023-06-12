@@ -3,8 +3,9 @@ package es.pacocovesgarcia.padeldist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
-import database.Padeldist
+import com.google.firebase.database.FirebaseDatabase
 import entities.Jugador
 import es.pacocovesgarcia.padeldist.mailVerificationMethod.sendVerificationEmail
 import es.pacocovesgarcia.padeldist.passwordMethods.ShowPassword
@@ -61,6 +62,8 @@ class RegisterScreen : AppCompatActivity() {
 
         //Inicialización de variables
 
+        val database = FirebaseDatabase.getInstance()
+
         etUser = findViewById(R.id.etUser)
         etPassword = findViewById(R.id.etPassword)
         etPassword2 = findViewById(R.id.etPassword2)
@@ -77,13 +80,14 @@ class RegisterScreen : AppCompatActivity() {
         btnShowPassword = findViewById(R.id.btnShowPassword)
         tvMistakes = findViewById(R.id.tvMistakes)
 
+        //Toast Personalizado
+        val inflater = layoutInflater
+        val layout: View = inflater.inflate(R.layout.toast_layout, findViewById(R.id.toast_layout_root))
+        val tvToast = layout.findViewById<TextView>(R.id.tvToast)
 
-
-        //Para comprobar en base de datos al insertar usuario
-
-        val database = Padeldist.getDatabase(this)
-        val jugadorDao = database.jugadorDao()
-        val credencialesUsuarioDao = database.CredencialesUsuarioDao()
+        val toast = Toast(applicationContext)
+        toast.duration = Toast.LENGTH_SHORT
+        toast.view = layout
 
         //Eventos de los botones
 
@@ -91,22 +95,18 @@ class RegisterScreen : AppCompatActivity() {
             coroutine.launch {
                 LoadCredentialsVariables()
                 rightCredentials = CheckRegistrationCredentials(userName, password, password2,
-                    email, tvMistakes, rgLevels, rgPosition, jugadorDao, credencialesUsuarioDao)
+                    email, tvMistakes, rgLevels, rgPosition, database)
                 if (rightCredentials) {
+                    tvMistakes.text = ""
                     //SendVerificationEmail()
                     //OpenEmailVerificationScreen()
                     if(InsertUser(applicationContext, courtPosition, level, userName, password, email,
-                        jugadorDao, credencialesUsuarioDao)){
-                        GlobalScope.launch(Dispatchers.Main) {
-                            Toast.makeText(applicationContext,
-                                "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
-                        }
-                        finish()
+                        database)){
+                        tvToast.text = "Usuario registrado correctamente!"
+                        toast.show()
                     }else{
-                        GlobalScope.launch(Dispatchers.Main) {
-                            Toast.makeText(applicationContext,
-                                "No te has podido registrar", Toast.LENGTH_SHORT).show()
-                        }
+                        tvToast.text = "No te has podido registrar"
+                        toast.show()
                     }
                 }
             }

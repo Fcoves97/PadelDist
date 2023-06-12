@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@drawable/login_screen_background_image"
+    tools:context=".UserScreen">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.099" />
+
+    <View
+        android:id="@+id/vwRegister"
+        android:layout_width="306dp"
+        android:layout_height="542dp"
+        android:background="@drawable/rounded_border"
+        android:radius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.707">
+
+    </View>
+
+    <ImageView
+        android:id="@+id/ivUserImage"
+        android:layout_width="121dp"
+        android:layout_height="114dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toTopOf="@+id/vwRegister"
+        app:layout_constraintVertical_bias="0.049"
+        app:srcCompat="@drawable/default_user_image" />
+
+    <ImageButton
+        android:id="@+id/ibChangeProfileImage"
+        android:layout_width="41dp"
+        android:layout_height="39dp"
+        android:background="@drawable/image_search_24"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.156"
+        app:layout_constraintStart_toEndOf="@+id/ivUserImage"
+        app:layout_constraintTop_toTopOf="@+id/vwRegister"
+        app:layout_constraintVertical_bias="0.234" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PacoCoves"
+        android:textColor="@color/customWhite"
+        android:textSize="22dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
+        app:layout_constraintVertical_bias="0.079" />
+
+    <ImageView
+        android:id="@+id/ivcorreo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/mail_24"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/tvUserName"
+        app:layout_constraintVertical_bias="0.076">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/tvCorreoValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="paquito@gmail.com"
+        android:textColor="@color/customWhite"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.393"
+        app:layout_constraintStart_toEndOf="@+id/ivcorreo"
+        app:layout_constraintTop_toBottomOf="@+id/tvUserName"
+        app:layout_constraintVertical_bias="0.091" />
+
+    <TextView
+        android:id="@+id/tvLadoPista"
+        android:layout_width="72dp"
+        android:layout_height="44dp"
+        android:text="Posición favorita"
+        android:textAlignment="center"
+        android:textColor="@color/customWhite"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.158"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/tvCorreoValue"
+        app:layout_constraintVertical_bias="0.192" />
+
+    <TextView
+        android:id="@+id/tvLadoPistaValue"
+        android:layout_width="139dp"
+        android:layout_height="22dp"
+        android:text="Derecha"
+        android:textColor="@color/customWhite"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.655"
+        app:layout_constraintStart_toEndOf="@+id/tvLadoPista"
+        app:layout_constraintTop_toBottomOf="@+id/tvCorreoValue"
+        app:layout_constraintVertical_bias="0.224" />
+
+    <TextView
+        android:id="@+id/tvNivel"
+        android:layout_width="42dp"
+        android:layout_height="27dp"
+        android:text="Nivel"
+        android:textColor="@color/customWhite"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.193"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/tvLadoPista"
+        app:layout_constraintVertical_bias="0.123" />
+
+    <TextView
+        android:id="@+id/tvNivelValue"
+        android:layout_width="145dp"
+        android:layout_height="33dp"
+        android:text="Experto"
+        android:textColor="@color/customWhite"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.805"
+        app:layout_constraintStart_toEndOf="@+id/tvNivel"
+        app:layout_constraintTop_toBottomOf="@+id/tvLadoPistaValue"
+        app:layout_constraintVertical_bias="0.156" />
+
+    <TextView
+        android:id="@+id/tvPartidasJugadas"
+        android:layout_width="72dp"
+        android:layout_height="44dp"
+        android:text="Partidas jugadas"
+        android:textAlignment="center"
+        android:textColor="@color/customWhite"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.158"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/tvNivel"
+        app:layout_constraintVertical_bias="0.187" />
+
+    <TextView
+        android:id="@+id/tvPartidasJugadasValue"
+        android:layout_width="53dp"
+        android:layout_height="26dp"
+        android:text="30 "
+        android:textAlignment="center"
+        android:textColor="@color/customWhite"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.569"
+        app:layout_constraintStart_toEndOf="@+id/tvPartidasJugadas"
+        app:layout_constraintTop_toBottomOf="@+id/tvNivelValue"
+        app:layout_constraintVertical_bias="0.189" />
+
+    <Button
+        android:id="@+id/btnAplicar"
+        android:layout_width="127dp"
+        android:layout_height="49dp"
+        android:text="APLICAR"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toEndOf="@+id/vwRegister"
+        app:layout_constraintHorizontal_bias="0.882"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toTopOf="@+id/vwRegister"
+        app:layout_constraintVertical_bias="0.955" />
+
+    <ImageButton
+        android:id="@+id/btnOpenMenu"
+        android:layout_width="53dp"
+        android:layout_height="46dp"
+        android:layout_gravity="start"
+        android:background="#30000000"
+        android:padding="15dp"
+        android:contentDescription="Open menu"
+        android:src="@drawable/menu_icon_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dlMenu"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <include layout="@layout/menu_layout" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

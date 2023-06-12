@@ -20,7 +20,7 @@
     <string name="navigation_drawer_open">Abrir menú</string>
     <string name="navigation_drawer_close">Cerrar menú</string>
     <string name="Horarios">Horarios</string>
-    <string name="Reservas">Reservas</string>
+    <string name="Reservas">Reservar</string>
     <string name="pistas">Pistas</string>
     <string name="partidas">Partidas</string>
     <string name="Ajustes">Ajustes</string>
@@ -53,5 +53,8 @@
 
     <string name="select_date_prompt">Selecciona una fecha</string>
     <string name="select_day_prompt">Selecciona un día</string>
-    <string name="show_results">Ver resultados</string>
+    <string name="show_results">Filtrar resultados</string>
+    <string name="show_time_table">VER HORARIOS</string>
+    <string name="historial_de_reservas">Historial de Reservas</string>
+    <string name="sistema_partidas_msg">¡El sistema de partidas todavía está en desarrollo, pronto tendremos el ranking local de la app!</string>
 </resources>
