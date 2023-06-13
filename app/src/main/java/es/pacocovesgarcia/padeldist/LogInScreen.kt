@@ -5,7 +5,6 @@ import android.content.Intent
 import android.media.AudioManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.*
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.database.DataSnapshot
@@ -19,7 +18,7 @@ import kotlinx.coroutines.launch
 
 // LogInScreen.kt
 
-class LogInScreen : AppCompatActivity(), LogInCallback {
+class LogInScreen : AppCompatActivity() {
 
     // Declaración de variables
 
@@ -28,18 +27,6 @@ class LogInScreen : AppCompatActivity(), LogInCallback {
     private lateinit var btnLogIn : Button
     private lateinit var etUser: EditText
     private lateinit var etPassword: EditText
-
-    private val toast: Toast by lazy {
-        val layoutInflater = layoutInflater
-        val layout: View = layoutInflater.inflate(R.layout.toast_layout, findViewById(R.id.toast_layout_root))
-        val tvToast = layout.findViewById<TextView>(R.id.tvToast)
-        Toast(applicationContext).apply {
-            duration = Toast.LENGTH_SHORT
-            view = layout
-        }
-    }
-
-    private lateinit var logInCallback: LogInCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +40,15 @@ class LogInScreen : AppCompatActivity(), LogInCallback {
         etUser = findViewById(R.id.etUser)
         etPassword = findViewById(R.id.etPassword)
 
+        //Toast personalizado
+        val inflater = layoutInflater
+        val layout = inflater.inflate(R.layout.toast_layout, findViewById(R.id.toast_layout_root))
+        val tvToast = layout.findViewById<TextView>(R.id.tvToast)
+
+        val toast = Toast(applicationContext)
+        toast.duration = Toast.LENGTH_SHORT
+        toast.view = layout
+
         // Eventos de los botones
 
         btnShowPassword.setOnClickListener {
@@ -65,24 +61,22 @@ class LogInScreen : AppCompatActivity(), LogInCallback {
 
         btnLogIn.setOnClickListener {
             if (etUser.text.toString().isNotEmpty() && etPassword.text.toString().isNotEmpty()) {
-                logInCallback = this
                 lifecycleScope.launch {
                     if (CheckLogInCredentials(etUser, etPassword,)) {
                         onLoginSuccess()
+                        tvToast.text = "Bienvenido de nuevo ${etUser.text}!"
+                        toast.show()
                         logInTransaction()
                     } else {
-                        showToast("Los campos introducidos son incorrectos")
+                        tvToast.text = "Las credenciales son incorrectas"
+                        toast.show()
                     }
                 }
             } else {
-                showToast("Introduce ambos campos")
+                tvToast.text = "Introduce ambos campos"
+                toast.show()
             }
         }
-    }
-
-    private fun showToast(message: String) {
-        toast.view?.findViewById<TextView>(R.id.tvToast)?.text = message
-        toast.show()
     }
 
     private fun logInTransaction() {
@@ -94,16 +88,6 @@ class LogInScreen : AppCompatActivity(), LogInCallback {
         val intent = Intent(this, RegisterScreen::class.java)
         startActivity(intent)
     }
-
-    override fun onLogInResult(success: Boolean) {
-        if (success) {
-            onLoginSuccess()
-            logInTransaction()
-        } else {
-            showToast("Los campos introducidos son incorrectos")
-        }
-    }
-
     fun onLoginSuccess() {
         // Obtener una referencia a la base de datos
         val database = FirebaseDatabase.getInstance()
@@ -141,7 +125,7 @@ class LogInScreen : AppCompatActivity(), LogInCallback {
 
                 if (configuracion != null) {
                     // Configura tu aplicación con los valores obtenidos de la configuración
-                    val temaSeleccionado = configuracion.tema.toString()
+                    val temaSeleccionado = configuracion.tema
                     val volumenGeneral = configuracion.volumen_general
                     val notificarPartidas = configuracion.notificar_partidas
                     if (volumenGeneral != null) {
@@ -158,8 +142,8 @@ class LogInScreen : AppCompatActivity(), LogInCallback {
         })
     }
 
-    private fun actualizarTema(temaSeleccionado: String) {
-        if (temaSeleccionado == "Tema Oscuro") {
+    private fun actualizarTema(temaSeleccionado: Configuracion.Tema) {
+        if (temaSeleccionado == Configuracion.Tema.TEMA_OSCURO) {
             setTheme(R.style.AppTheme_Dark)
         } else {
             setTheme(R.style.AppTheme_Light)
@@ -172,10 +156,6 @@ class LogInScreen : AppCompatActivity(), LogInCallback {
         val desiredVolume = (seekBarValue / 100f * maxVolume).toInt()
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, desiredVolume, 0)
     }
-}
-
-interface LogInCallback {
-    fun onLogInResult(success: Boolean)
 }
 
 

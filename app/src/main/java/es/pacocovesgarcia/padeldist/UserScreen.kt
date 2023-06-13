@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
+import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -40,7 +41,8 @@ class UserScreen : AppCompatActivity() {
 
     private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
 
-
+    private var selectedImageUri: Uri? = null
+    var isImageSelected = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_screen)
@@ -69,64 +71,79 @@ class UserScreen : AppCompatActivity() {
         dlMenu.closeDrawer(GravityCompat.START)
         dlMenu.visibility = View.INVISIBLE
 
-        val selectedImageUri: Uri = Uri.parse("content://com.example.app/images/image.jpg")
+        //Toast personalizado
+        val inflater = layoutInflater
+        val layout = inflater.inflate(R.layout.toast_layout, findViewById(R.id.toast_layout_root))
+        val tvToast = layout.findViewById<TextView>(R.id.tvToast)
+
+        val toast = Toast(applicationContext)
+        toast.duration = Toast.LENGTH_SHORT
+        toast.view = layout
 
         cargarDatosJugador()
-
-        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                val selectedImageUri = result.data?.data
-                // Utiliza la URI de la imagen seleccionada para cargarla en el ImageButton o ImageView
-                ivUserImage.setImageURI(selectedImageUri)
-            }
-        }
 
         ibChangeProfileImage.setOnClickListener{
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             imagePickerLauncher.launch(intent)
         }
 
+        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                selectedImageUri = result.data?.data
+                selectedImageUri?.let { uri ->
+                    // Utiliza el URI de la imagen seleccionada para cargarla en el ImageButton o ImageView
+                    ivUserImage.setImageURI(uri)
+                    isImageSelected = true
+                }
+            }
+        }
+
         btnAplicar.setOnClickListener{
-            actualizarImagenJugador(selectedImageUri)
+            if (isImageSelected){
+                val database = FirebaseDatabase.getInstance()
+                val jugadoresRef = database.getReference("jugadores")
+
+                val query = jugadoresRef.orderByChild("nombre").equalTo(JugadorSingletone.LoggedPlayer.nombre)
+
+                query.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (snapshot in dataSnapshot.children) {
+                            val jugadorId = snapshot.key
+
+                            // Actualizar el campo imagen_perfil del jugador
+                            jugadorId?.let {
+                                jugadoresRef.child(it).child("imagen_perfil").setValue(selectedImageUri.toString())
+                                    .addOnSuccessListener {
+                                        JugadorSingletone.LoggedPlayer.imagen_perfil = selectedImageUri.toString()
+                                        recreate()
+                                        tvToast.text = "Imagen cambiada!"
+                                        toast.show()
+                                    }
+                                    .addOnFailureListener {
+                                        tvToast.text = "Error al cambiar la imagen"
+                                        toast.show()
+                                    }
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        // Manejar el error en caso de que ocurra
+                    }
+                })
+            }else{
+                tvToast.text = "No se han realizado cambios!"
+                toast.show()
+            }
         }
     }
 
     private fun cargarDatosJugador() {
+        ivUserImage.setImageURI(JugadorSingletone.LoggedPlayer.imagen_perfil?.toUri())
         tvCorreoValue.text = JugadorSingletone.LoggedPlayerMail
         tvUserName.text = JugadorSingletone.LoggedPlayer.nombre
         tvLadoPistaValue.text = JugadorSingletone.LoggedPlayer.lado_pista
         tvNivelValue.text = JugadorSingletone.LoggedPlayer.nivel
         tvPartidasJugadasValue.text = JugadorSingletone.LoggedPlayer.partidas_jugadas.toString()
-    }
-
-    private fun actualizarImagenJugador(selectedImageUri: Uri) {
-        val database = FirebaseDatabase.getInstance()
-        val jugadoresRef = database.getReference("jugadores")
-
-        val query = jugadoresRef.orderByChild("nombre").equalTo(Singletone.JugadorSingletone.LoggedPlayer.nombre)
-
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (snapshot in dataSnapshot.children) {
-                    val jugadorId = snapshot.key
-
-                    // Actualizar el campo imagen_perfil del jugador
-                    jugadorId?.let {
-                        jugadoresRef.child(it).child("imagen_perfil").setValue(selectedImageUri)
-                            .addOnSuccessListener {
-                                Singletone.JugadorSingletone.LoggedPlayer.imagen_perfil = selectedImageUri?.toString()
-                            }
-                            .addOnFailureListener { e ->
-                                // La actualización falló. Manejar el error según corresponda
-                            }
-                    }
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Manejar el error en caso de que ocurra
-            }
-        })
-
     }
 }

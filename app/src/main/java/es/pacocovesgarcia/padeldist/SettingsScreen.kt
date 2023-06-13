@@ -14,6 +14,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import entities.Configuracion
 import es.pacocovesgarcia.padeldist.menuAndToolbar.SetUpMenuAndToolbar
 
 class SettingsScreen : AppCompatActivity() {
@@ -30,7 +31,6 @@ class SettingsScreen : AppCompatActivity() {
     private lateinit var radioGroupTheme : RadioGroup
 
     private lateinit var btnAplicar: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings_screen)
@@ -44,7 +44,20 @@ class SettingsScreen : AppCompatActivity() {
         ivUserImage = findViewById(R.id.ivUserImage)
         tvUserName = findViewById(R.id.tvUserName)
 
+        seekBar = findViewById(R.id.seekBar)
+        cbNotificar = findViewById(R.id.cbNotificar)
+        radioGroupTheme = findViewById(R.id.radioGroupTheme)
+
         btnAplicar = findViewById(R.id.btnAplicar)
+
+        //Toast personalizado
+        val inflater = layoutInflater
+        val layout = inflater.inflate(R.layout.toast_layout, findViewById(R.id.toast_layout_root))
+        val tvToast = layout.findViewById<TextView>(R.id.tvToast)
+
+        val toast = Toast(applicationContext)
+        toast.duration = Toast.LENGTH_SHORT
+        toast.view = layout
 
         //Establecer opciones del menú y toolbar
 
@@ -53,17 +66,19 @@ class SettingsScreen : AppCompatActivity() {
         dlMenu.closeDrawer(GravityCompat.START)
         dlMenu.visibility = View.INVISIBLE
 
+        inicializarAjustes()
+
         btnAplicar.setOnClickListener{
             val seekBarValue = seekBar.progress
             val notificarPartidas = cbNotificar.isChecked
-            val temaSeleccionado = if (radioGroupTheme.checkedRadioButtonId == R.id.radioButtonDark) "Tema Oscuro" else "Tema Claro"
+            val temaSeleccionado = if (radioGroupTheme.checkedRadioButtonId == R.id.radioButtonDark)
+                Configuracion.Tema.TEMA_OSCURO else Configuracion.Tema.TEMA_CLARO
 
             val database = FirebaseDatabase.getInstance()
             val configuracionesRef = database.getReference("configuraciones")
             val jugadoresRef = database.getReference("jugadores")
 
             val query = jugadoresRef.orderByChild("nombre").equalTo(Singletone.JugadorSingletone.LoggedPlayer.nombre)
-
             query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (snapshot in dataSnapshot.children) {
@@ -82,6 +97,8 @@ class SettingsScreen : AppCompatActivity() {
                                         actualizarVolumen(seekBarValue)
                                         actualizarTema(temaSeleccionado)
                                         recreate()
+                                        tvToast.text = "Ajustes aplicados"
+                                        toast.show()
                                     }
                                 }
                         }
@@ -89,14 +106,58 @@ class SettingsScreen : AppCompatActivity() {
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-                    // Manejar el error en caso de que ocurra
+                    tvToast.text = "Error al aplicar los ajustes"
+                    toast.show()
                 }
             })
         }
     }
 
-    private fun actualizarTema(temaSeleccionado: String) {
-        if (temaSeleccionado == "Tema Oscuro") {
+    private fun inicializarAjustes() {
+        val database = FirebaseDatabase.getInstance()
+        val configuracionesRef = database.getReference("configuraciones")
+        val jugadoresRef = database.getReference("jugadores")
+
+        val query = jugadoresRef.orderByChild("nombre").equalTo(Singletone.JugadorSingletone.LoggedPlayer.nombre)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val idJugador = snapshot.key
+                    if (idJugador != null) {
+                        val jugadorConfigRef = configuracionesRef.child(idJugador)
+
+                        jugadorConfigRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(configSnapshot: DataSnapshot) {
+                                val configuraciones = configSnapshot.getValue(Configuracion::class.java)
+                                configuraciones?.let {
+                                    seekBar.progress = it.volumen_general!!
+                                    cbNotificar.isChecked = it.notificar_partidas
+
+                                    if (it.tema == Configuracion.Tema.TEMA_OSCURO) {
+                                        radioGroupTheme.check(R.id.radioButtonDark)
+                                    } else {
+                                        radioGroupTheme.check(R.id.radioButtonLight)
+                                    }
+                                }
+                            }
+
+                            override fun onCancelled(databaseError: DatabaseError) {
+                                // Manejar el error si es necesario
+                            }
+                        })
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Manejar el error si es necesario
+            }
+        })
+    }
+
+
+    private fun actualizarTema(temaSeleccionado: Configuracion.Tema) {
+        if (temaSeleccionado == Configuracion.Tema.TEMA_OSCURO) {
             setTheme(R.style.AppTheme_Dark)
         } else {
             setTheme(R.style.AppTheme_Light)

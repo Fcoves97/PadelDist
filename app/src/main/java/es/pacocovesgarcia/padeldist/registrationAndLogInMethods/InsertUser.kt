@@ -43,7 +43,7 @@ fun InsertUser(
                         true
                     )
 
-                    val configuracion = Configuracion(jugadorId, true, 100, Configuracion.Tema.CLARO)
+                    val configuracion = Configuracion(jugadorId, true, 100, Configuracion.Tema.TEMA_CLARO)
                     configuracionesRef.child(jugadorId).setValue(configuracion)
 
                     val credencialesUsuario = CredencialesUsuario(
@@ -68,6 +68,7 @@ fun InsertUser(
                         }
                 } else {
                     Log.d("InsertarJugador", "Error al crear el usuario en Firebase Authentication")
+
                 }
             }
 
