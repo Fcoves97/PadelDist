@@ -165,8 +165,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPistas"
-        android:layout_width="367dp"
-        android:layout_height="319dp"
+        android:layout_width="371dp"
+        android:layout_height="321dp"
         android:padding="6dp"
         app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
         app:layout_constraintEnd_toEndOf="@+id/vwRegister"
