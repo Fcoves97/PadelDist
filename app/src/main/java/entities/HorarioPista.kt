@@ -1,9 +1,9 @@
 package entities
-
-import java.sql.Date
 class HorarioPista(
-    val pista: Int,
-    val dia_pista: Date,
+    val dia_pista: String,
+    val hora_final: String,
     val hora_inicial: String,
-    val hora_final: String
-)
+    val id_pista: String
+){
+    constructor() : this( "","", "", "")
+}

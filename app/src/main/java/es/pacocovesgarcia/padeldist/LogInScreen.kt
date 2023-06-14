@@ -49,6 +49,7 @@ class LogInScreen : AppCompatActivity() {
         toast.duration = Toast.LENGTH_SHORT
         toast.view = layout
 
+
         // Eventos de los botones
 
         btnShowPassword.setOnClickListener {
@@ -59,8 +60,8 @@ class LogInScreen : AppCompatActivity() {
             OpenRegisterScreen()
         }
 
-        btnLogIn.setOnClickListener {
-            if (etUser.text.toString().isNotEmpty() && etPassword.text.toString().isNotEmpty()) {
+        btnLogIn.setOnClickListener {logInTransaction()
+            /*if (etUser.text.toString().isNotEmpty() && etPassword.text.toString().isNotEmpty()) {
                 lifecycleScope.launch {
                     if (CheckLogInCredentials(etUser, etPassword,)) {
                         onLoginSuccess()
@@ -75,12 +76,12 @@ class LogInScreen : AppCompatActivity() {
             } else {
                 tvToast.text = "Introduce ambos campos"
                 toast.show()
-            }
+            }*/
         }
     }
 
     private fun logInTransaction() {
-        val intent = Intent(this, WelcomeScreen::class.java)
+        val intent = Intent(this, PistasScreen::class.java)
         startActivity(intent)
     }
 

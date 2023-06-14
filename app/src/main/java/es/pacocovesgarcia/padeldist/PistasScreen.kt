@@ -49,7 +49,7 @@ class PistasScreen : AppCompatActivity(), PistaAdapter.OnVerHorariosClickListene
 
         //Establecer opciones del menú y toolbar
 
-        SetUpMenuAndToolbar(dlMenu,btnOpenMenu,sideMenu,ivUserImage,tvUserName,btncloseMenu,this)
+        //SetUpMenuAndToolbar(dlMenu,btnOpenMenu,sideMenu,ivUserImage,tvUserName,btncloseMenu,this)
 
         dlMenu.closeDrawer(GravityCompat.START)
         dlMenu.visibility = View.INVISIBLE

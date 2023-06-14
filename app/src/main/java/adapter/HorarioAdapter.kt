@@ -9,12 +9,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import entities.HorarioPista
 import es.pacocovesgarcia.padeldist.R
 import es.pacocovesgarcia.padeldist.R.*
 import es.pacocovesgarcia.padeldist.R.color.*
 import es.pacocovesgarcia.padeldist.pistaDialogFragment.PistaDialogFragment
 
-class HorarioAdapter(private val horarios: List<PistaDialogFragment.HorarioPista>) : RecyclerView.Adapter<HorarioAdapter.HorarioViewHolder>() {
+class HorarioAdapter(private val horarios: List<HorarioPista>) : RecyclerView.Adapter<HorarioAdapter.HorarioViewHolder>() {
 
     private val selectedPositions: MutableList<Int> = mutableListOf()
 
@@ -25,18 +26,7 @@ class HorarioAdapter(private val horarios: List<PistaDialogFragment.HorarioPista
 
     override fun onBindViewHolder(holder: HorarioViewHolder, position: Int) {
         val horario = horarios[position]
-
-        if (horario.franja_horaria == "mañana" || horario.franja_horaria == "tarde") {
-            // Fila de encabezado
-            holder.tvHorario.text = "Horario de " + horario.franja_horaria
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.darkerBrown))
-            holder.tvHorario.gravity = Gravity.CENTER
-            holder.tvHorario.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.customWhite))
-            holder.tvHorario.setTypeface(null, Typeface.BOLD)
-        } else {
-            // Fila de horario individual
-            holder.bind(horario, selectedPositions.contains(position))
-        }
+        holder.bind(horario, selectedPositions.contains(position))
     }
 
     override fun getItemCount(): Int {
@@ -56,8 +46,8 @@ class HorarioAdapter(private val horarios: List<PistaDialogFragment.HorarioPista
             }
         }
 
-        fun bind(horario: PistaDialogFragment.HorarioPista, isSelected: Boolean) {
-            tvHorario.text = horario.hora
+        fun bind(horario: HorarioPista, isSelected: Boolean) {
+            tvHorario.text = horario.dia_pista
 
             if (isSelected) {
                 itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.lighterBrown))
@@ -87,14 +77,14 @@ class HorarioAdapter(private val horarios: List<PistaDialogFragment.HorarioPista
 
         val positions = selectedPositions.sorted()
 
-        val firstFila = horarios[positions[0]].num_fila
-        val secondFila = horarios[positions[1]].num_fila
-        val thirdFila = horarios[positions[2]].num_fila
+        val firstFila = horarios[positions[0]].hora_final.toInt()
+        val secondFila = horarios[positions[1]].hora_final.toInt()
+        val thirdFila = horarios[positions[2]].hora_final.toInt()
 
         return (secondFila - firstFila == 1) && (thirdFila - secondFila == 1)
     }
 
-    fun getSelectedHorario(): PistaDialogFragment.HorarioPista? {
+    fun getSelectedHorario(): HorarioPista? {
         if (selectedPositions.size == 1) {
             val position = selectedPositions.first()
             return horarios.getOrNull(position)

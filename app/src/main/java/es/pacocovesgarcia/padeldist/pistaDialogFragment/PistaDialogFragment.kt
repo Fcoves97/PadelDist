@@ -1,9 +1,13 @@
 package es.pacocovesgarcia.padeldist.pistaDialogFragment
 
 import adapter.HorarioAdapter
+import android.app.Application
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -11,12 +15,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import com.jakewharton.threetenabp.AndroidThreeTen
+import entities.HorarioPista
 import entities.Pista
 import es.pacocovesgarcia.padeldist.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -71,12 +79,19 @@ class PistaDialogFragment : DialogFragment() {
 
         pistaIdTextView.text = "Número de pista: $pistaId"
 
-        // Obtener los horarios disponibles
-        getHorariosDisponibles { horariosDisponibles ->
-            // Aquí puedes manejar los horarios disponibles como desees
-            // Por ejemplo, puedes mostrarlos en un RecyclerView o realizar otras operaciones.
+        val context = requireContext()
+        val application = context.applicationContext as Application
+        AndroidThreeTen.init(application)
+
+        GlobalScope.launch(Dispatchers.Main) {
+            val horariosDisponibles = getHorariosDisponibles()
+            val horariosNoDisponibles = getHorasNoDisponiblesDeHoy(pistaId)
+            val horariosFiltrados = horariosDisponibles.filter { horario ->
+                !horariosNoDisponibles.any { it.hora_inicial == horario.dia_pista || it.hora_final == horario.dia_pista }
+            }
+
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            recyclerView.adapter = HorarioAdapter(horariosDisponibles)
+            recyclerView.adapter = HorarioAdapter(horariosFiltrados)
         }
 
         val dialog = dialogBuilder.create()
@@ -87,7 +102,7 @@ class PistaDialogFragment : DialogFragment() {
             // Verificar si se ha seleccionado un horario
             val horarioSeleccionado = (recyclerView.adapter as? HorarioAdapter)?.getSelectedHorario()
             if (horarioSeleccionado != null) {
-                listener?.onPistaReservada(pistaId, horarioSeleccionado.hora)
+                listener?.onPistaReservada(pistaId, horarioSeleccionado.dia_pista)
             } else {
                 Toast.makeText(requireContext(), "Selecciona un horario", Toast.LENGTH_SHORT).show()
             }
@@ -99,156 +114,98 @@ class PistaDialogFragment : DialogFragment() {
         }
         return dialog
     }
+    suspend fun getHorasNoDisponiblesDeHoy(pistaId: String?): MutableList<HorarioPista> = suspendCoroutine { continuation ->
+        val horariosNoDisponibles = mutableListOf<HorarioPista>()
+
+        val fechaActual = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val fechaActualFormateada = fechaActual.format(formatter)
+
+        val database = FirebaseDatabase.getInstance()
+        val referencia = database.getReference("horarios_pistas")
+        val query = referencia.orderByChild("dia_pista").equalTo("11/06/2023")
+
+        val task = query.get()
+        task.addOnSuccessListener { dataSnapshot ->
+            // Recorre los nodos del resultado de la consulta
+            dataSnapshot.children.forEach { snapshot ->
+                val reserva = snapshot.getValue(HorarioPista::class.java)
+                if (reserva?.id_pista == pistaId) {
+                    // Aquí puedes guardar los valores de hora_inicial y hora_final
+                    val horaInicial = reserva?.hora_inicial
+                    val horaFinal = reserva?.hora_final
+
+                    val horarioPista = horaInicial?.let {
+                        if (horaFinal != null) {
+                            HorarioPista("", horaFinal, it, pistaId.toString())
+                        } else {
+                            null
+                        }
+                    }
+
+                    if (horarioPista != null) {
+                        // Agregar el objeto HorarioPista a la lista horariosNoDisponibles
+                        horariosNoDisponibles.add(horarioPista)
+                    }
+                }
+            }
+
+            // Devolver los resultados a través de la continuación
+            continuation.resume(horariosNoDisponibles)
+        }.addOnFailureListener { exception ->
+            // Manejar el error aquí
+            continuation.resumeWithException(exception)
+        }
+    }
 
 
+    private fun getHorariosDisponibles(): List<HorarioPista> {
+        val horaInicialManana = "08:00"
+        val horaFinalManana = "13:30"
+        val horaInicialTarde = "15:00"
+        val horaFinalTarde = "21:00"
+
+        val horariosDisponiblesFiltrados = mutableListOf<HorarioPista>()
+
+        // Agrega los horarios disponibles de la mañana
+        val calendarManana = Calendar.getInstance()
+        calendarManana.time = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(horaInicialManana)!!
+
+        var numfilaManana: Int = 0
+        while (calendarManana.get(Calendar.HOUR_OF_DAY) < horaFinalManana.split(":")[0].toInt() ||
+            (calendarManana.get(Calendar.HOUR_OF_DAY) == horaFinalManana.split(":")[0].toInt() &&
+                    calendarManana.get(Calendar.MINUTE) <= horaFinalManana.split(":")[1].toInt())
+        ) {
+            val horarioManana = SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendarManana.time)
+            val horarioPistaManana = HorarioPista("", horarioManana, "", numfilaManana.toString())
+            horariosDisponiblesFiltrados.add(horarioPistaManana)
+            numfilaManana++
+            calendarManana.add(Calendar.MINUTE, 30)
+        }
+
+        // Agrega los horarios disponibles de la tarde
+        val calendarTarde = Calendar.getInstance()
+        calendarTarde.time = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(horaInicialTarde)!!
+
+        var numfilaTarde: Int = numfilaManana
+        while (calendarTarde.get(Calendar.HOUR_OF_DAY) < horaFinalTarde.split(":")[0].toInt() ||
+            (calendarTarde.get(Calendar.HOUR_OF_DAY) == horaFinalTarde.split(":")[0].toInt() &&
+                    calendarTarde.get(Calendar.MINUTE) <= horaFinalTarde.split(":")[1].toInt())
+        ) {
+            val horarioTarde = SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendarTarde.time)
+            val horarioPistaTarde = HorarioPista("", horarioTarde, "", numfilaTarde.toString())
+            horariosDisponiblesFiltrados.add(horarioPistaTarde)
+            numfilaTarde++
+            calendarTarde.add(Calendar.MINUTE, 30)
+        }
+
+        return horariosDisponiblesFiltrados
+    }
     override fun onDetach() {
         super.onDetach()
         // Limpia la referencia al listener
         listener = null
     }
-
-    private fun getHorariosDisponibles(callback: (List<HorarioPista>) -> Unit) {
-        val horariosDisponibles = mutableListOf<HorarioPista>()
-
-        val horaInicialManana = "08:00"
-        val horaFinalManana = "13:30"
-        val horaInicialTarde = "16:00"
-        val horaFinalTarde = "21:00"
-
-        val pistaSeleccionada = pistaId
-
-        if (pistaSeleccionada != null) {
-            buscarPistaReservada(pistaSeleccionada) { horariosReservados ->
-                // Filtra los horarios disponibles según los horarios reservados obtenidos de la base de datos
-                val horariosDisponiblesFiltrados = mutableListOf<HorarioPista>()
-
-                // Agrega los horarios disponibles de la mañana
-                val calendarManana = Calendar.getInstance()
-                calendarManana.time = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(horaInicialManana)!!
-
-                var numfilaManana: Int = 0
-                while (calendarManana.get(Calendar.HOUR_OF_DAY) < horaFinalManana.split(":")[0].toInt() ||
-                    (calendarManana.get(Calendar.HOUR_OF_DAY) == horaFinalManana.split(":")[0].toInt() &&
-                            calendarManana.get(Calendar.MINUTE) <= horaFinalManana.split(":")[1].toInt())
-                ) {
-                    val horarioManana = SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendarManana.time)
-                    val horarioPistaManana = HorarioPista(horarioManana, false, "mañana", numfilaManana)
-                    val reservadoManana = horariosReservados.any { it.hora == horarioManana }
-                    if (!reservadoManana) {
-                        horariosDisponiblesFiltrados.add(horarioPistaManana)
-                        numfilaManana++
-                    }
-                    calendarManana.add(Calendar.MINUTE, 30)
-                }
-
-                // Agrega los horarios disponibles de la tarde
-                val calendarTarde = Calendar.getInstance()
-                calendarTarde.time = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(horaInicialTarde)!!
-
-                var numfilaTarde: Int = numfilaManana
-                while (calendarTarde.get(Calendar.HOUR_OF_DAY) < horaFinalTarde.split(":")[0].toInt() ||
-                    (calendarTarde.get(Calendar.HOUR_OF_DAY) == horaFinalTarde.split(":")[0].toInt() &&
-                            calendarTarde.get(Calendar.MINUTE) <= horaFinalTarde.split(":")[1].toInt())
-                ) {
-                    val horarioTarde = SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendarTarde.time)
-                    val horarioPistaTarde = HorarioPista(horarioTarde, false, "tarde", numfilaTarde)
-                    val reservadoTarde = horariosReservados.any { it.hora == horarioTarde }
-                    if (!reservadoTarde) {
-                        horariosDisponiblesFiltrados.add(horarioPistaTarde)
-                        numfilaTarde++
-                    }
-                    calendarTarde.add(Calendar.MINUTE, 30)
-                }
-
-                // Agrega la franja "Mañana" si hay horarios disponibles
-                if (horariosDisponiblesFiltrados.any { it.franja_horaria == "mañana" }) {
-                    val headerManana = HorarioPista("HORARIO DE MAÑANA", false, "mañana", 0)
-                    horariosDisponibles.add(headerManana)
-                }
-
-                // Agrega los horarios disponibles de la mañana filtrados
-                horariosDisponibles.addAll(horariosDisponiblesFiltrados.filter { it.franja_horaria == "mañana" })
-
-                // Agrega la franja "Tarde" si hay horarios disponibles
-                if (horariosDisponiblesFiltrados.any { it.franja_horaria == "tarde" }) {
-                    val headerTarde = HorarioPista("HORARIO DE TARDE", false, "tarde", 0)
-                    horariosDisponibles.add(headerTarde)
-                }
-
-                // Agrega los horarios disponibles de la tarde filtrados
-                horariosDisponibles.addAll(horariosDisponiblesFiltrados.filter { it.franja_horaria == "tarde" })
-
-                // Llama al callback con la lista de horarios disponibles
-                callback(horariosDisponibles)
-            }
-        } else {
-            // Llama al callback con una lista vacía si no hay una pista seleccionada
-            callback(emptyList())
-        }
-    }
-
-    private fun buscarPistaReservada(pistaSeleccionada: String, callback: (List<HorarioPista>) -> Unit) {
-        val horariosReservados = mutableListOf<HorarioPista>()
-
-        val database = FirebaseDatabase.getInstance()
-        val reference = database.getReference("Horarios_pistas")
-
-        val query = reference.orderByChild("id_pista").equalTo(pistaSeleccionada)
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (childSnapshot in dataSnapshot.children) {
-                    val horaInicial = childSnapshot.child("hora_inicial").value as String
-                    val horaFinal = childSnapshot.child("hora_final").value as String
-
-                    val format = SimpleDateFormat("HH:mm", Locale.getDefault())
-                    val calendar = Calendar.getInstance()
-
-                    val inicio = format.parse(horaInicial)
-                    val fin = format.parse(horaFinal)
-
-                    calendar.time = inicio
-                    while (calendar.time.before(fin)) {
-                        val horario = format.format(calendar.time)
-                        val horarioPista = HorarioPista(horario, false, "hora", 0)
-                        horariosReservados.add(horarioPista)
-                        calendar.add(Calendar.MINUTE, 30)
-                    }
-                }
-
-                callback(horariosReservados)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle the query error if needed
-                callback(emptyList())
-            }
-        })
-    }
-
-    private fun manejarDisponibilidadHorarios(horariosReservados: List<HorarioPista>) {
-        // Filtra los horarios disponibles según los horarios reservados obtenidos de Firebase
-        // y continúa con la lógica de construcción de la lista de horarios disponibles
-
-        // Ejemplo de filtrado:
-        val horariosDisponiblesFiltrados = mutableListOf<HorarioPista>()
-        val horariosDisponibles = mutableListOf<HorarioPista>()
-
-        // Itera sobre los horarios disponibles
-        for (horarioDisponible in horariosDisponibles) {
-            // Verifica si el horario está reservado
-            val reservado = horariosReservados.any { it.hora == horarioDisponible.hora }
-
-            // Si no está reservado, agrega el horario a la lista filtrada de horarios disponibles
-            if (!reservado) {
-                horariosDisponiblesFiltrados.add(horarioDisponible)
-            }
-        }
-
-        // Continúa con la lógica de construcción de la lista de horarios disponibles utilizando horariosDisponiblesFiltrados
-        // ...
-    }
-
-    data class HorarioPista(val hora: String, var isSelected: Boolean, var franja_horaria: String, var num_fila:Int)
 }
 
 
