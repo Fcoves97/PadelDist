@@ -4,21 +4,17 @@ import adapter.HorarioAdapter
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import entities.Pista
 import entities.Reserva
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 
 class HorarioReservasScreen : AppCompatActivity() {

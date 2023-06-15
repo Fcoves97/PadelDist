@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import entities.Reserva
+import es.pacocovesgarcia.padeldist.dialogFragment.HistorialReservasDialog
 import es.pacocovesgarcia.padeldist.menuAndToolbar.SetUpMenuAndToolbar
 
 class HistorialReservasScreen : AppCompatActivity(), ReservaAdapter.OnVerHorariosClickListener {
@@ -33,7 +34,6 @@ class HistorialReservasScreen : AppCompatActivity(), ReservaAdapter.OnVerHorario
     private lateinit var recyclerView: RecyclerView
     private lateinit var reservaAdapter: ReservaAdapter
     private lateinit var reservas: ArrayList<Reserva> // Lista de reservas
-    private lateinit var tvPista : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +46,7 @@ class HistorialReservasScreen : AppCompatActivity(), ReservaAdapter.OnVerHorario
         toolbar = findViewById(R.id.toolbar)
         ivUserImage = findViewById(R.id.ivUserImage)
         tvUserName = findViewById(R.id.tvUserName)
+
 
         //Establecer opciones del menú y toolbar
         SetUpMenuAndToolbar(
@@ -65,6 +66,7 @@ class HistorialReservasScreen : AppCompatActivity(), ReservaAdapter.OnVerHorario
         recyclerView.layoutManager = LinearLayoutManager(this)
         reservas = ArrayList()
         reservaAdapter = ReservaAdapter(reservas)
+        reservaAdapter.setOnVerHorariosClickListener(this)
         recyclerView.adapter = reservaAdapter
 
         // Obtener referencia a las reservas en la base de datos
@@ -94,6 +96,12 @@ class HistorialReservasScreen : AppCompatActivity(), ReservaAdapter.OnVerHorario
     }
 
     override fun onVerHorariosClick(reserva: Reserva) {
+        val dialogo = HistorialReservasDialog()
+        val args = Bundle().apply {
+            putParcelable(HistorialReservasDialog.ARG_RESERVA, reserva)
+        }
+        dialogo.arguments = args
 
+        dialogo.show(supportFragmentManager, "reserva")
     }
 }

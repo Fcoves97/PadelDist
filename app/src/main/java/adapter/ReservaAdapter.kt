@@ -12,19 +12,13 @@ import es.pacocovesgarcia.padeldist.R
 
 class ReservaAdapter(private val reservas: List<Reserva>) : RecyclerView.Adapter<ReservaAdapter.ReservaViewHolder>() {
 
-    inner class ReservaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvDiaReserva: TextView = itemView.findViewById(R.id.tvDiaReserva)
-        val tvPista: TextView = itemView.findViewById(R.id.tvPista)
-        val btnVerDetalles: Button = itemView.findViewById(R.id.btnVerDetalles)
-    }
+    private var onVerHorariosClickListener: OnVerHorariosClickListener? = null
 
     interface OnVerHorariosClickListener {
         fun onVerHorariosClick(reserva: Reserva)
     }
 
-    private var onVerHorariosClickListener: ReservaAdapter.OnVerHorariosClickListener? = null
-
-    fun setOnVerHorariosClickListener(listener: ReservaAdapter.OnVerHorariosClickListener) {
+    fun setOnVerHorariosClickListener(listener: OnVerHorariosClickListener) {
         onVerHorariosClickListener = listener
     }
 
@@ -35,12 +29,33 @@ class ReservaAdapter(private val reservas: List<Reserva>) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: ReservaViewHolder, position: Int) {
         val reserva = reservas[position]
-
-        holder.tvDiaReserva.text = reserva.fecha_reserva
-        holder.tvPista.text = reserva.id_pista
+        holder.bind(reserva)
     }
 
     override fun getItemCount(): Int {
         return reservas.size
     }
+
+    inner class ReservaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val tvPista: TextView = itemView.findViewById(R.id.tvPista)
+        private val tvDiaReserva: TextView = itemView.findViewById(R.id.tvDiaReserva)
+        private val btnVerDetalles: Button = itemView.findViewById(R.id.btnVerDetalles)
+
+        init {
+            btnVerDetalles.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val reserva = reservas[position]
+                    onVerHorariosClickListener?.onVerHorariosClick(reserva)
+                }
+            }
+        }
+
+        fun bind(reserva: Reserva) {
+            tvPista.text = reserva.id_pista
+            tvDiaReserva.text = reserva.fecha_reserva
+        }
+    }
 }
+
