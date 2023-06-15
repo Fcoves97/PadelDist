@@ -1,6 +1,7 @@
 package es.pacocovesgarcia.padeldist
 
 import adapter.PistaAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -82,7 +83,8 @@ class PistasScreen : AppCompatActivity(), PistaAdapter.OnVerHorariosClickListene
     }
 
     override fun onVerHorariosClick(pista: Pista) {
-        val dialogFragment = PistaDialogFragment.newInstance(pista)
-        dialogFragment.show(supportFragmentManager, "pista_dialog")
+        val intent = Intent(this, HorarioReservasScreen::class.java)
+        intent.putExtra("pista_nombre",pista.nombre_pista)
+        startActivity(intent)
     }
 }

@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<ToggleButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toggleButton"
+    android:layout_width="100sp"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp">
-
-    <TextView
-        android:id="@+id/tvHorario"
-        android:layout_width="0dp"
-        android:textColor="@color/black"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-
-</LinearLayout>
+    android:textOff=""
+    android:textOn=""
+    android:backgroundTint="@drawable/tooglebutton_color"/>

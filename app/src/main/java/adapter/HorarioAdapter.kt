@@ -1,94 +1,81 @@
 package adapter
 
 import android.graphics.Color
-import android.graphics.Typeface
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.content.ContextCompat
+import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
-import entities.HorarioPista
+import entities.Reserva
 import es.pacocovesgarcia.padeldist.R
-import es.pacocovesgarcia.padeldist.R.*
-import es.pacocovesgarcia.padeldist.R.color.*
-import es.pacocovesgarcia.padeldist.pistaDialogFragment.PistaDialogFragment
+import org.threeten.bp.LocalTime
 
-class HorarioAdapter(private val horarios: List<HorarioPista>) : RecyclerView.Adapter<HorarioAdapter.HorarioViewHolder>() {
+class HorarioAdapter(private val horarios: List<String>, private val horariosReservados: Set<Reserva>) :
+    RecyclerView.Adapter<HorarioAdapter.HorarioViewHolder>() {
 
-    private val selectedPositions: MutableList<Int> = mutableListOf()
+    private val selectedPositions: MutableSet<Int> = mutableSetOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorarioViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_horario, parent, false)
-        return HorarioViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: HorarioViewHolder, position: Int) {
-        val horario = horarios[position]
-        holder.bind(horario, selectedPositions.contains(position))
-    }
-
-    override fun getItemCount(): Int {
-        return horarios.size
-    }
+    private val MAX_SELECTED_COUNT = 2
 
     inner class HorarioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        val tvHorario: TextView = itemView.findViewById(R.id.tvHorario)
+        val toggleButton: ToggleButton = itemView.findViewById(R.id.toggleButton)
 
         init {
-            itemView.setOnClickListener {
+            toggleButton.setOnCheckedChangeListener { _, isChecked ->
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    toggleSelection(position)
+                    if (isChecked) {
+                        // Verificar si el horario está reservado
+                        val hora = horarios[position]
+                        if (horariosReservados.any { reserva -> reserva.hora_final == hora || reserva.hora_inicial == hora }) {
+                            toggleButton.isChecked = false
+                            // Aquí puedes aplicar cambios visuales para indicar que el horario está reservado
+                            // Por ejemplo, cambiar el color del ToggleButton o deshabilitarlo
+                            toggleButton.setBackgroundColor(Color.RED)
+                            toggleButton.isEnabled = false
+                        } else if (selectedPositions.size < MAX_SELECTED_COUNT) {
+                            selectedPositions.add(position)
+                        } else {
+                            toggleButton.isChecked = false
+                            // Aquí puedes aplicar cambios visuales para indicar que se ha alcanzado el límite de selección
+                            // Por ejemplo, mostrar un mensaje de error o deshabilitar los ToggleButtons adicionales
+                        }
+                    } else {
+                        selectedPositions.remove(position)
+                    }
                 }
             }
         }
 
-        fun bind(horario: HorarioPista, isSelected: Boolean) {
-            tvHorario.text = horario.dia_pista
-
-            if (isSelected) {
-                itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.lighterBrown))
-            } else {
-                itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.darkBrown))
-            }
+        fun bind(hora: String) {
+            toggleButton.textOn = hora
+            toggleButton.textOff = hora
+            toggleButton.isChecked = selectedPositions.contains(adapterPosition)
         }
     }
 
-    private fun toggleSelection(position: Int) {
-        if (selectedPositions.contains(position)) {
-            selectedPositions.remove(position)
-        } else {
-            if (selectedPositions.size >= 3) {
-                val removedPosition = selectedPositions.removeAt(0)
-                notifyItemChanged(removedPosition)
-            }
-            selectedPositions.add(position)
-        }
-        notifyDataSetChanged()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorarioViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_horario, parent, false)
+        return HorarioViewHolder(itemView)
     }
 
-    private fun arePositionsConsecutive(): Boolean {
-        if (selectedPositions.size != 3) {
-            return false
+    override fun onBindViewHolder(holder: HorarioViewHolder, position: Int) {
+        val hora = horarios[position]
+        holder.bind(hora)
+
+        if (horariosReservados.any { reserva ->
+                hora == reserva.hora_final || hora == reserva.hora_inicial
+            }) {
+            holder.toggleButton.isEnabled = false
+            holder.toggleButton.setTextColor(Color.RED)
         }
-
-        val positions = selectedPositions.sorted()
-
-        val firstFila = horarios[positions[0]].hora_final.toInt()
-        val secondFila = horarios[positions[1]].hora_final.toInt()
-        val thirdFila = horarios[positions[2]].hora_final.toInt()
-
-        return (secondFila - firstFila == 1) && (thirdFila - secondFila == 1)
     }
 
-    fun getSelectedHorario(): HorarioPista? {
-        if (selectedPositions.size == 1) {
-            val position = selectedPositions.first()
-            return horarios.getOrNull(position)
-        }
-        return null
+    override fun getItemCount(): Int = horarios.size
+
+    fun getSelectedHoras(): Set<String> {
+        return selectedPositions.map { horarios[it] }.toSet()
     }
 }
+

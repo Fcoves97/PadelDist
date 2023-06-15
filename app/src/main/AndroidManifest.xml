@@ -16,6 +16,12 @@
         android:theme="@style/Theme.PadelDist"
         tools:targetApi="31">
         <activity
+            android:name=".ReservaTransactionScreen"
+            android:exported="false" />
+        <activity
+            android:name=".HorarioReservasScreen"
+            android:exported="false" />
+        <activity
             android:name=".PartidasScreen"
             android:exported="false" />
         <activity

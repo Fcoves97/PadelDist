@@ -61,9 +61,9 @@ class LogInScreen : AppCompatActivity() {
         }
 
         btnLogIn.setOnClickListener {logInTransaction()
-            /*if (etUser.text.toString().isNotEmpty() && etPassword.text.toString().isNotEmpty()) {
+            if (etUser.text.toString().isNotEmpty() && etPassword.text.toString().isNotEmpty()) {
                 lifecycleScope.launch {
-                    if (CheckLogInCredentials(etUser, etPassword,)) {
+                    if (CheckLogInCredentials(etUser, etPassword)) {
                         onLoginSuccess()
                         tvToast.text = "Bienvenido de nuevo ${etUser.text}!"
                         toast.show()
@@ -76,7 +76,7 @@ class LogInScreen : AppCompatActivity() {
             } else {
                 tvToast.text = "Introduce ambos campos"
                 toast.show()
-            }*/
+            }
         }
     }
 

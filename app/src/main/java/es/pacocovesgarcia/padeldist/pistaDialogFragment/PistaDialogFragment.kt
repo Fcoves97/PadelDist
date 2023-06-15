@@ -85,28 +85,33 @@ class PistaDialogFragment : DialogFragment() {
 
         GlobalScope.launch(Dispatchers.Main) {
             val horariosDisponibles = getHorariosDisponibles()
-            val horariosNoDisponibles = getHorasNoDisponiblesDeHoy(pistaId)
-            val horariosFiltrados = horariosDisponibles.filter { horario ->
-                !horariosNoDisponibles.any { it.hora_inicial == horario.dia_pista || it.hora_final == horario.dia_pista }
-            }
 
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            recyclerView.adapter = HorarioAdapter(horariosFiltrados)
+           // val horarioAdapter = HorarioAdapter(horariosDisponibles)
+           // recyclerView.adapter = horarioAdapter
+           // horarioAdapter.notifyDataSetChanged()
+
+            // Asigna el adaptador y notifica los cambios después de obtener los horarios disponibles
         }
+
+        // Mueve estas líneas fuera del bloque GlobalScope.launch
+        //val horarioAdapter = HorarioAdapter(emptyList())
+        //recyclerView.adapter = horarioAdapter
+
 
         val dialog = dialogBuilder.create()
 
         // Acciones de los botones
 
         btnReservar.setOnClickListener {
-            // Verificar si se ha seleccionado un horario
-            val horarioSeleccionado = (recyclerView.adapter as? HorarioAdapter)?.getSelectedHorario()
-            if (horarioSeleccionado != null) {
-                listener?.onPistaReservada(pistaId, horarioSeleccionado.dia_pista)
+            /*// Verificar si se ha seleccionado un horario
+           // val horarioSeleccionado = (recyclerView.adapter as? HorarioAdapter)?.getSelectedHorario()
+           // if (horarioSeleccionado != null) {
+           //     listener?.onPistaReservada(pistaId, horarioSeleccionado.dia_pista)
             } else {
                 Toast.makeText(requireContext(), "Selecciona un horario", Toast.LENGTH_SHORT).show()
             }
-            dialog.dismiss()
+            dialog.dismiss()*/
         }
 
         btnCancelar.setOnClickListener {
@@ -159,7 +164,7 @@ class PistaDialogFragment : DialogFragment() {
     }
 
 
-    private fun getHorariosDisponibles(): List<HorarioPista> {
+    private suspend fun getHorariosDisponibles(): List<HorarioPista> = suspendCoroutine { continuation ->
         val horaInicialManana = "08:00"
         val horaFinalManana = "13:30"
         val horaInicialTarde = "15:00"
@@ -198,8 +203,7 @@ class PistaDialogFragment : DialogFragment() {
             numfilaTarde++
             calendarTarde.add(Calendar.MINUTE, 30)
         }
-
-        return horariosDisponiblesFiltrados
+        continuation.resume(horariosDisponiblesFiltrados)
     }
     override fun onDetach() {
         super.onDetach()
