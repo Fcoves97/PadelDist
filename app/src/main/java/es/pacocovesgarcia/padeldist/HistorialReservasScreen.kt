@@ -4,7 +4,6 @@ import adapter.ReservaAdapter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -18,11 +17,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import entities.Pista
 import entities.Reserva
 import es.pacocovesgarcia.padeldist.menuAndToolbar.SetUpMenuAndToolbar
-import es.pacocovesgarcia.padeldist.pistaDialogFragment.PistaDialogFragment
-import es.pacocovesgarcia.padeldist.pistaDialogFragment.ReservaDialogFragment
 
 class HistorialReservasScreen : AppCompatActivity(), ReservaAdapter.OnVerHorariosClickListener {
 
@@ -37,6 +33,7 @@ class HistorialReservasScreen : AppCompatActivity(), ReservaAdapter.OnVerHorario
     private lateinit var recyclerView: RecyclerView
     private lateinit var reservaAdapter: ReservaAdapter
     private lateinit var reservas: ArrayList<Reserva> // Lista de reservas
+    private lateinit var tvPista : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +94,6 @@ class HistorialReservasScreen : AppCompatActivity(), ReservaAdapter.OnVerHorario
     }
 
     override fun onVerHorariosClick(reserva: Reserva) {
-        val dialogFragment = ReservaDialogFragment.newInstance(reserva)
-        dialogFragment.show(supportFragmentManager, "pista_dialog")
+
     }
 }

@@ -1,6 +1,7 @@
 package es.pacocovesgarcia.padeldist
 
 import adapter.PistaAdapter
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import entities.Pista
 import es.pacocovesgarcia.padeldist.menuAndToolbar.SetUpMenuAndToolbar
-import es.pacocovesgarcia.padeldist.pistaDialogFragment.PistaDialogFragment
 import es.pacocovesgarcia.padeldist.reservasMethods.FilterResults
 import es.pacocovesgarcia.padeldist.reservasMethods.GetAvailableDates
 import kotlinx.coroutines.launch
@@ -100,7 +100,8 @@ class ReservasScreen : AppCompatActivity(), PistaAdapter.OnVerHorariosClickListe
     }
 
     override fun onVerHorariosClick(pista: Pista) {
-        val dialogFragment = PistaDialogFragment.newInstance(pista)
-        dialogFragment.show(supportFragmentManager, "pista_dialog")
+        val intent = Intent(this, HorarioReservasScreen::class.java)
+        intent.putExtra("pista_nombre",pista.nombre_pista)
+        startActivity(intent)
     }
 }

@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import entities.Pista
 import es.pacocovesgarcia.padeldist.menuAndToolbar.SetUpMenuAndToolbar
-import es.pacocovesgarcia.padeldist.pistaDialogFragment.PistaDialogFragment
 import kotlinx.coroutines.launch
 import viewModel.PistasViewModel
 
@@ -50,7 +49,7 @@ class PistasScreen : AppCompatActivity(), PistaAdapter.OnVerHorariosClickListene
 
         //Establecer opciones del menú y toolbar
 
-        //SetUpMenuAndToolbar(dlMenu,btnOpenMenu,sideMenu,ivUserImage,tvUserName,btncloseMenu,this)
+        SetUpMenuAndToolbar(dlMenu,btnOpenMenu,sideMenu,ivUserImage,tvUserName,btncloseMenu,this)
 
         dlMenu.closeDrawer(GravityCompat.START)
         dlMenu.visibility = View.INVISIBLE
@@ -70,16 +69,6 @@ class PistasScreen : AppCompatActivity(), PistaAdapter.OnVerHorariosClickListene
             adapter.updateData(pistas) // Actualizar el adaptador con la lista de pistas
             // Aquí puedes realizar cualquier otra acción que necesites con los datos de la lista de pistas
         }
-
-       /* btnVerHorarios.setOnClickListener{
-            val pistaId = pistaName // Obtener el ID de la pista seleccionada
-
-            val dialogFragment = PistaDialogFragment()
-            val args = Bundle()
-            args.putString("pistaId", pistaId)
-            dialogFragment.arguments = args
-            dialogFragment.show(supportFragmentManager, "pista_dialog")
-        }*/
     }
 
     override fun onVerHorariosClick(pista: Pista) {

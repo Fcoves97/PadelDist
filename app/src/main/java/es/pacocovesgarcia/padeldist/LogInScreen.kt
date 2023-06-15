@@ -60,7 +60,7 @@ class LogInScreen : AppCompatActivity() {
             OpenRegisterScreen()
         }
 
-        btnLogIn.setOnClickListener {logInTransaction()
+        btnLogIn.setOnClickListener {
             if (etUser.text.toString().isNotEmpty() && etPassword.text.toString().isNotEmpty()) {
                 lifecycleScope.launch {
                     if (CheckLogInCredentials(etUser, etPassword)) {
@@ -81,7 +81,7 @@ class LogInScreen : AppCompatActivity() {
     }
 
     private fun logInTransaction() {
-        val intent = Intent(this, PistasScreen::class.java)
+        val intent = Intent(this, WelcomeScreen::class.java)
         startActivity(intent)
     }
 

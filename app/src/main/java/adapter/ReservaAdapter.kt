@@ -36,12 +36,8 @@ class ReservaAdapter(private val reservas: List<Reserva>) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: ReservaViewHolder, position: Int) {
         val reserva = reservas[position]
 
-        holder.tvDiaReserva.text = reserva.fecha_reserva.toString()
-        holder.tvPista.text = reserva.id_pista.toString()
-
-        holder.btnVerDetalles.setOnClickListener {
-
-        }
+        holder.tvDiaReserva.text = reserva.fecha_reserva
+        holder.tvPista.text = reserva.id_pista
     }
 
     override fun getItemCount(): Int {

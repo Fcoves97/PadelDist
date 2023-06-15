@@ -27,7 +27,8 @@ class HorarioAdapter(private val horarios: List<String>, private val horariosRes
                     if (isChecked) {
                         // Verificar si el horario está reservado
                         val hora = horarios[position]
-                        if (horariosReservados.any { reserva -> reserva.hora_final == hora || reserva.hora_inicial == hora }) {
+                        if (horariosReservados.any { reserva -> reserva.hora_final == hora.split("-")[0]
+                                    || reserva.hora_inicial == hora.split("-")[0] }) {
                             toggleButton.isChecked = false
                             // Aquí puedes aplicar cambios visuales para indicar que el horario está reservado
                             // Por ejemplo, cambiar el color del ToggleButton o deshabilitarlo

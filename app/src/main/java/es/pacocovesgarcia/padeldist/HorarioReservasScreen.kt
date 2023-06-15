@@ -88,8 +88,8 @@ class HorarioReservasScreen : AppCompatActivity() {
 
                     val intent = Intent(this, ReservaTransactionScreen::class.java)
                     intent.putExtra("pista_nombre",pista)
-                    intent.putExtra("hora_final",horaFinal)
-                    intent.putExtra("hora_inicial",horaInicio)
+                    intent.putExtra("hora_final",horario2)
+                    intent.putExtra("hora_inicial",horario1)
                     intent.putExtra("dia_reserva",fechaFormateada)
                     startActivity(intent)
 
