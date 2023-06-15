@@ -5,4 +5,5 @@
     android:layout_height="wrap_content"
     android:textOff=""
     android:textOn=""
+    android:textColor="@color/black"
     android:backgroundTint="@drawable/tooglebutton_color"/>

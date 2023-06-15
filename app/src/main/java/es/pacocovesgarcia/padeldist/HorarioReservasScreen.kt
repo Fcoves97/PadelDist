@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.jakewharton.threetenabp.AndroidThreeTen
 import entities.Reserva
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
@@ -37,6 +38,8 @@ class HorarioReservasScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_horario_reservas_screen)
+
+        AndroidThreeTen.init(this)
 
         rvHorarioManana = findViewById(R.id.rvHorarioManana)
         rvHorarioTarde = findViewById(R.id.rvHorarioTarde)
