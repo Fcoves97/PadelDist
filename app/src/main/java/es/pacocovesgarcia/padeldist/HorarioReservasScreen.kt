@@ -31,6 +31,7 @@ class HorarioReservasScreen : AppCompatActivity() {
     private lateinit var btnVolver: Button
     private lateinit var btnReservar: Button
     private lateinit var tvPistaId : TextView
+    private lateinit var tvFecha : TextView
 
     private lateinit var rvHorarioManana: RecyclerView
     private lateinit var rvHorarioTarde: RecyclerView
@@ -44,11 +45,19 @@ class HorarioReservasScreen : AppCompatActivity() {
         rvHorarioManana = findViewById(R.id.rvHorarioManana)
         rvHorarioTarde = findViewById(R.id.rvHorarioTarde)
         tvPistaId = findViewById(R.id.tvNumeroPista)
+        tvFecha = findViewById(R.id.tvFecha)
 
         btnVolver = findViewById(R.id.btnVolver)
         btnReservar = findViewById(R.id.btnReservar)
 
         val pista = intent.getStringExtra("pista_nombre")
+        var fecha_reserva = intent.getStringExtra("fecha_reserva")
+
+        if(fecha_reserva.isNullOrEmpty()){
+            tvFecha.text = "HOY"
+        }else{
+            tvFecha.text = fecha_reserva.toString()
+        }
 
         tvPistaId.text = pista
 
@@ -68,7 +77,7 @@ class HorarioReservasScreen : AppCompatActivity() {
         btnReservar.setOnClickListener {
             val horasSeleccionadas = getHorasSeleccionadas(rvHorarioManana,rvHorarioTarde)
             if(horasSeleccionadas == null || horasSeleccionadas.size < 2){
-                tvToast.text = "Debes seleccionar 1 hora mínimo para continuar"
+                tvToast.text = "Debes seleccionar 1 hora de reserva para continuar"
                 toast.show()
             }else{
                 val horasSeleccionadasArray: Array<String> = horasSeleccionadas.toTypedArray()
@@ -80,17 +89,29 @@ class HorarioReservasScreen : AppCompatActivity() {
                     val horaInicio = horario1.split("-")[0]
                     val horaFinal = horario2.split("-")[1]
 
-                    val fechaActual = LocalDate.now()
+                    if(tvFecha.text == "HOY"){
+                        val fechaActual = LocalDate.now()
+                        val formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                        val fechaFormateada = fechaActual.format(formatoFecha)
 
-                    val formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                    val fechaFormateada = fechaActual.format(formatoFecha)
+                        val intent = Intent(this, ReservaTransactionScreen::class.java)
+                        intent.putExtra("pista_nombre",pista)
+                        intent.putExtra("hora_final",horaFinal)
+                        intent.putExtra("hora_inicial",horaInicio)
+                        intent.putExtra("dia_reserva",fechaFormateada)
+                        startActivity(intent)
+                    }else{
+                        val fechaActual = LocalDate.now()
+                        val formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                        val fechaFormateada = fechaActual.format(formatoFecha)
 
-                    val intent = Intent(this, ReservaTransactionScreen::class.java)
-                    intent.putExtra("pista_nombre",pista)
-                    intent.putExtra("hora_final",horario2)
-                    intent.putExtra("hora_inicial",horario1)
-                    intent.putExtra("dia_reserva",fechaFormateada)
-                    startActivity(intent)
+                        val intent = Intent(this, ReservaTransactionScreen::class.java)
+                        intent.putExtra("pista_nombre",pista)
+                        intent.putExtra("hora_final",horaFinal)
+                        intent.putExtra("hora_inicial",horaInicio)
+                        intent.putExtra("dia_reserva",fecha_reserva)
+                        startActivity(intent)
+                    }
 
                 } else {
                     tvToast.text = "Las horas deben ser consecutivas"
@@ -99,13 +120,19 @@ class HorarioReservasScreen : AppCompatActivity() {
             }
         }
 
-        val fecha = obtenerFechaActual()
-
         // Obtener los horarios reservados de la base de datos
         if (pista != null) {
-            getHorariosReservados(pista,rvHorarioManana,rvHorarioTarde) { horariosReservados ->
-                // Luego de obtener los horarios reservados, puedes llamar a la función para configurar el RecyclerView
-                horarioAdapter.notifyDataSetChanged()
+            if (!fecha_reserva.isNullOrEmpty()) {
+                getHorariosReservados(pista,fecha_reserva,rvHorarioManana,rvHorarioTarde) { horariosReservados ->
+                    // Luego de obtener los horarios reservados, puedes llamar a la función para configurar el RecyclerView
+                    horarioAdapter.notifyDataSetChanged()
+                }
+            }else{
+                fecha_reserva = "today"
+                getHorariosReservados(pista,fecha_reserva,rvHorarioManana,rvHorarioTarde) { horariosReservados ->
+                    // Luego de obtener los horarios reservados, puedes llamar a la función para configurar el RecyclerView
+                    horarioAdapter.notifyDataSetChanged()
+                }
             }
         }
     }
@@ -117,43 +144,63 @@ class HorarioReservasScreen : AppCompatActivity() {
         return horaFinal1 == horaInicio2 // Comprobar si coinciden las horas
     }
 
-    fun obtenerFechaActual(): String {
-        val fechaActual = LocalDate.now()
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        return fechaActual.format(formatter)
-    }
-
-    private fun getHorariosReservados(pistaId: String,rvHorarioManana:RecyclerView,rvHorarioTarde:RecyclerView, callback: (Set<String>) -> Unit) {
+    fun getHorariosReservados(pistaId: String,fecha_reserva:String,rvHorarioManana:RecyclerView,rvHorarioTarde:RecyclerView, callback: (Set<String>) -> Unit) {
         val database = FirebaseDatabase.getInstance()
         val reference = database.getReference("reservas")
-        val fechaActual = LocalDate.now()
 
-        val formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val fechaFormateada = fechaActual.format(formatoFecha)
+        if(fecha_reserva == "today"){
+            val fechaActual = LocalDate.now()
+            val formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+            val fechaFormateada = fechaActual.format(formatoFecha)
 
-        reference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (childSnapshot in dataSnapshot.children) {
-                    val data = childSnapshot.value as? HashMap<String, Any>
-                    if(data != null){
-                        if (data["fecha_reserva"] as String == fechaFormateada && data["id_pista"] as? String == pistaId) {
+            reference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (childSnapshot in dataSnapshot.children) {
+                        val data = childSnapshot.value as? HashMap<String, Any>
+                        if(data != null){
+                            if (data["fecha_reserva"] as String == fechaFormateada && data["id_pista"] as? String == pistaId) {
 
-                            val horaFinal = data["hora_final"] as? String
-                            val horaInicial = data["hora_inicial"] as? String
+                                val horaFinal = data["hora_final"] as? String
+                                val horaInicial = data["hora_inicial"] as? String
 
-                            // Ejemplo: agregar los horarios reservados a una lista
-                            if (horaInicial != null && horaFinal != null) {
-                                val horarioReservado = Reserva("","","","","", horaInicial, horaFinal)
-                                horariosReservados.add(horarioReservado)
+                                // Ejemplo: agregar los horarios reservados a una lista
+                                if (horaInicial != null && horaFinal != null) {
+                                    val horarioReservado = Reserva("","","","","", horaInicial, horaFinal)
+                                    horariosReservados.add(horarioReservado)
+                                }
                             }
                         }
                     }
+                    setupRecyclerView(rvHorarioManana, horariosManana, horariosReservados)
+                    setupRecyclerView(rvHorarioTarde, horariosTarde, horariosReservados)
                 }
-                setupRecyclerView(rvHorarioManana, horariosManana, horariosReservados)
-                setupRecyclerView(rvHorarioTarde, horariosTarde, horariosReservados)
-            }
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            })
+        }else{
+            reference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (childSnapshot in dataSnapshot.children) {
+                        val data = childSnapshot.value as? HashMap<String, Any>
+                        if(data != null){
+                            if (data["fecha_reserva"] as String == fecha_reserva && data["id_pista"] as? String == pistaId) {
+
+                                val horaFinal = data["hora_final"] as? String
+                                val horaInicial = data["hora_inicial"] as? String
+
+                                // Ejemplo: agregar los horarios reservados a una lista
+                                if (horaInicial != null && horaFinal != null) {
+                                    val horarioReservado = Reserva("","","","","", horaInicial, horaFinal)
+                                    horariosReservados.add(horarioReservado)
+                                }
+                            }
+                        }
+                    }
+                    setupRecyclerView(rvHorarioManana, horariosManana, horariosReservados)
+                    setupRecyclerView(rvHorarioTarde, horariosTarde, horariosReservados)
+                }
+                override fun onCancelled(error: DatabaseError) {}
+            })
+        }
     }
     private fun setupRecyclerView(rvHorario: RecyclerView, horariosDisponibles: List<String>, horariosReservados: Set<Reserva>) {
         horarioAdapter = HorarioAdapter(horariosDisponibles, horariosReservados)

@@ -5,15 +5,12 @@ import android.util.Log
 import android.widget.EditText
 import com.google.firebase.database.*
 import entities.Jugador
-import es.pacocovesgarcia.padeldist.LogInScreen
 import es.pacocovesgarcia.padeldist.passwordMethods.EncryptPassword
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import entities.CredencialesUsuario
+import kotlinx.coroutines.tasks.await
 
 // ...
 
@@ -54,12 +51,6 @@ suspend fun CheckLogInCredentials(etUser: EditText, etPassword: EditText): Boole
                 if (credencialesUsuario != null && credencialesUsuario.contraseña == EncryptPassword(password)) {
                     JugadorSingletone.LoggedPlayer = jugador
                     JugadorSingletone.LoggedPlayerMail = correo
-                    signInWithEmailAndPassword(credencialesUsuario.correo, password, {
-                        // Inicio de sesión exitoso
-                        // Realiza las acciones necesarias después del inicio de sesión exitoso
-                    }, { errorMessage ->
-                        Log.d("CheckLogInCredentials", "Error al iniciar sesión: $errorMessage")
-                    })
                     return@coroutineScope true
                 }
             }
@@ -89,22 +80,27 @@ suspend fun obtenerCredencialesUsuarioPorId(idJugador: String): CredencialesUsua
     val database = FirebaseDatabase.getInstance()
     val credencialesUsuarioRef = database.getReference("credenciales_usuarios")
 
-    return try {
-        val snapshot = credencialesUsuarioRef.orderByChild("id_jugador").equalTo(idJugador).limitToFirst(1).get().await()
-        if (snapshot.exists()) {
-            val credencialesUsuarioMap = snapshot.children.first().getValue() as? Map<String, Any>
-            val contraseña = credencialesUsuarioMap?.get("contraseña") as? String ?: ""
-            correo = credencialesUsuarioMap?.get("correo") as? String ?: ""
-            Log.d(contraseña,contraseña)
-            CredencialesUsuario(idJugador, correo, contraseña)
-        } else {
-            null
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
-    }
-}
+     return try {
+         return try {
+             val snapshot = credencialesUsuarioRef.orderByChild("id_jugador").equalTo(idJugador).limitToFirst(1).get().await()
+             if (snapshot.exists()) {
+                 val credencialesUsuarioMap = snapshot.children.first().getValue() as? Map<String, Any>
+                 val contraseña = credencialesUsuarioMap?.get("contraseña") as? String ?: ""
+                 correo = credencialesUsuarioMap?.get("correo") as? String ?: ""
+                 Log.d(contraseña,contraseña)
+                 CredencialesUsuario(idJugador, correo, contraseña)
+             } else {
+                 null
+             }
+         } catch (e: Exception) {
+             e.printStackTrace()
+             null
+         }
+     } catch (e: Exception) {
+         e.printStackTrace()
+         null
+     }
+ }
 
 
 

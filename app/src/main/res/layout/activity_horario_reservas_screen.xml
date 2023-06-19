@@ -13,7 +13,19 @@
         android:textColor="@color/customWhite"
         android:text="Pista 1"
         android:layout_marginTop="14sp"
-        android:layout_marginBottom="30sp"
+        android:layout_marginBottom="15sp"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/customWhite"
+        android:text="Pista 1"
+        android:layout_marginTop="1sp"
+        android:layout_marginBottom="15sp"
         android:textSize="24sp"
         android:textStyle="bold" />
 

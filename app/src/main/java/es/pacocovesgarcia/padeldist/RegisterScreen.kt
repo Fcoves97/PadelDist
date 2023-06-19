@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.*
 import com.google.firebase.database.FirebaseDatabase
 import entities.Jugador
-import es.pacocovesgarcia.padeldist.mailVerificationMethod.sendVerificationEmail
 import es.pacocovesgarcia.padeldist.passwordMethods.ShowPassword
 import es.pacocovesgarcia.padeldist.registrationAndLogInMethods.CheckRegistrationCredentials
 import es.pacocovesgarcia.padeldist.registrationAndLogInMethods.InsertUser
@@ -98,8 +97,6 @@ class RegisterScreen : AppCompatActivity() {
                     email, tvMistakes, rgLevels, rgPosition, database)
                 if (rightCredentials) {
                     tvMistakes.text = ""
-                    //SendVerificationEmail()
-                    //OpenEmailVerificationScreen()
                     if(InsertUser(applicationContext, courtPosition, level, userName, password, email,
                         database)){
                         tvToast.text = "Usuario registrado correctamente!"
@@ -146,16 +143,5 @@ class RegisterScreen : AppCompatActivity() {
         } else {
             Jugador.Nivel.EXPERTO
         }
-    }
-
-    private fun SendVerificationEmail() {
-        val verificationCode = UUID.randomUUID().toString()
-        sendVerificationEmail(etEmail.text.toString(),verificationCode)
-    }
-
-    private fun OpenEmailVerificationScreen() {
-        val intent = Intent(this, EmailVerificationScreen::class.java)
-        intent.putExtra("Email", etEmail.text.toString().trim())
-        startActivity(intent)
     }
 }

@@ -170,7 +170,7 @@
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/vwTimeTable"
         app:layout_constraintEnd_toEndOf="@+id/vwTimeTable"
-        app:layout_constraintHorizontal_bias="0.882"
+        app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="@+id/vwTimeTable"
         app:layout_constraintTop_toBottomOf="@+id/radioGroupTheme"
         app:layout_constraintVertical_bias="0.932" />

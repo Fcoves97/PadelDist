@@ -40,16 +40,8 @@ class ReservaTransactionScreen : AppCompatActivity() {
 
         tvPistaId.text = intent.getStringExtra("pista_nombre")
         val FechaInicio = intent.getStringExtra("hora_inicial")
-        val FechaInicio2:String
-        if (FechaInicio != null) {
-            FechaInicio2 = FechaInicio.split("-")[0]
-        }
         tvFechaInicioValue.text = FechaInicio
         val FechaFinal = intent.getStringExtra("hora_final")
-        val FechaFinal2: String
-        if (FechaFinal != null) {
-            FechaFinal2 = FechaFinal.split("-")[1]
-        }
         tvFechaFinalValue.text = FechaFinal
         tvFechaValue.text = intent.getStringExtra("dia_reserva")
         //tvJugadorReservaValue.text = Singletone.JugadorSingletone.LoggedPlayer.nombre

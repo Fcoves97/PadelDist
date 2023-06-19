@@ -7,10 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import androidx.lifecycle.lifecycleScope
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import entities.Configuracion
 import es.pacocovesgarcia.padeldist.passwordMethods.ShowPassword
 import es.pacocovesgarcia.padeldist.registrationAndLogInMethods.CheckLogInCredentials
@@ -48,7 +45,6 @@ class LogInScreen : AppCompatActivity() {
         val toast = Toast(applicationContext)
         toast.duration = Toast.LENGTH_SHORT
         toast.view = layout
-
 
         // Eventos de los botones
 
@@ -89,12 +85,11 @@ class LogInScreen : AppCompatActivity() {
         val intent = Intent(this, RegisterScreen::class.java)
         startActivity(intent)
     }
+
     fun onLoginSuccess() {
-        // Obtener una referencia a la base de datos
+        val nombreJugador = Singletone.JugadorSingletone.LoggedPlayer.nombre // Reemplaza con el nombre real del jugador
         val database = FirebaseDatabase.getInstance()
         val jugadoresRef = database.getReference("jugadores")
-        val nombreJugador = Singletone.JugadorSingletone.LoggedPlayer.nombre // Reemplaza con el nombre real del jugador
-
         val query = jugadoresRef.orderByChild("nombre").equalTo(nombreJugador)
 
         query.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -128,7 +123,6 @@ class LogInScreen : AppCompatActivity() {
                     // Configura tu aplicación con los valores obtenidos de la configuración
                     val temaSeleccionado = configuracion.tema
                     val volumenGeneral = configuracion.volumen_general
-                    val notificarPartidas = configuracion.notificar_partidas
                     if (volumenGeneral != null) {
                         actualizarVolumen(volumenGeneral)
                     }
@@ -158,5 +152,6 @@ class LogInScreen : AppCompatActivity() {
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, desiredVolume, 0)
     }
 }
+
 
 

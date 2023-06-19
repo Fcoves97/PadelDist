@@ -32,8 +32,8 @@ class HistorialReservasDialog : DialogFragment() {
         val tvCoste = dialogView.findViewById<TextView>(R.id.tvCoste)
         val btnAceptar = dialogView.findViewById<Button>(R.id.btnAceptar)
 
-        val FechaInicial = reserva?.hora_inicial?.split("-")?.get(0)
-        val FechaFinal = reserva?.hora_final?.split("-")?.get(1)
+        val FechaInicial = reserva?.hora_inicial
+        val FechaFinal = reserva?.hora_final
 
         tvDuracionReserva.text = "Duración de la reserva: ${reserva?.duracion_reserva}"
         tvFechaReserva.text = "Fecha de la reserva: ${reserva?.fecha_reserva}"

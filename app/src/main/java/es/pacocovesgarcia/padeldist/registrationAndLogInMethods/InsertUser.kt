@@ -39,7 +39,7 @@ fun InsertUser(
                         level.toString(),
                         courtPosition.toString(),
                         0,
-                        convertDrawableToBase64(context, R.drawable.default_user_image),
+                        "",
                         true
                     )
 

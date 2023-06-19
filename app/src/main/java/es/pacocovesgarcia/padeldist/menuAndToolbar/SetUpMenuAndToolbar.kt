@@ -11,11 +11,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
 import es.pacocovesgarcia.padeldist.*
 import es.pacocovesgarcia.padeldist.imageConversions.byteArrayToBitmap
+import es.pacocovesgarcia.padeldist.imageConversions.convertDrawableToBase64
 
 private var selectedMenuItemId: Int = 7
 private var isMenuOpen: Boolean = false
@@ -86,12 +92,11 @@ fun SetUpMenuAndToolbar(
 
     sideMenu.setCheckedItem(selectedMenuItemId)
 
-    val imagen_perfil  =
-        JugadorSingletone.getLoggedPlayer().imagen_perfil?.toByteArray() // Tu ByteArray de la imagen
-    val bitmap: Bitmap? = imagen_perfil?.let { byteArrayToBitmap(it) }
-
-    if (bitmap != null) {
-        ivUserImage.setImageBitmap(bitmap)
+    if (JugadorSingletone.getLoggedPlayer().imagen_perfil != "") {
+        Glide.with(context)
+            .load(JugadorSingletone.LoggedPlayer.imagen_perfil?.toUri())
+            .apply(RequestOptions().transform(CircleCrop()))
+            .into(ivUserImage)
     } else {
         // Si la conversión falla, puedes establecer una imagen de reemplazo o realizar alguna otra acción
         ivUserImage.setImageResource(R.drawable.default_user_image)

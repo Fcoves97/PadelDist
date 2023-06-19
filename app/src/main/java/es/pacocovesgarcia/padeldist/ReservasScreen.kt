@@ -93,7 +93,7 @@ class ReservasScreen : AppCompatActivity(), PistaAdapter.OnVerHorariosClickListe
         // Manejar evento de clic del botón
         btnVerResultados.setOnClickListener {
             lifecycleScope.launch {
-                val pistasDisponibles = FilterResults()
+                val pistasDisponibles = FilterResults(spinnerFecha,spinnerHora)
                 adapter.updateData(pistasDisponibles)
             }
         }
@@ -102,6 +102,7 @@ class ReservasScreen : AppCompatActivity(), PistaAdapter.OnVerHorariosClickListe
     override fun onVerHorariosClick(pista: Pista) {
         val intent = Intent(this, HorarioReservasScreen::class.java)
         intent.putExtra("pista_nombre",pista.nombre_pista)
+        intent.putExtra("fecha_reserva",spinnerFecha.selectedItem.toString())
         startActivity(intent)
     }
 }

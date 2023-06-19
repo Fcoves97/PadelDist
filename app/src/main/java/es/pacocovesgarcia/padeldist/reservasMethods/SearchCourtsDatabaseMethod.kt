@@ -1,12 +1,10 @@
 package es.pacocovesgarcia.padeldist.reservasMethods
 
-import android.content.Context
 import com.google.firebase.database.FirebaseDatabase
 import entities.Pista
 import kotlinx.coroutines.tasks.await
-import java.util.*
 
-suspend fun searchCourtDatabaseMethod(): List<Pista> {
+suspend fun searchCourtDatabaseMethod(fechaSeleccionada: String, horaSeleccionada: String): List<Pista> {
     val database = FirebaseDatabase.getInstance()
     val pistasRef = database.getReference("pistas")
 

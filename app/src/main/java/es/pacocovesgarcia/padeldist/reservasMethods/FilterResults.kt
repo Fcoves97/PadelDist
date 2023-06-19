@@ -1,19 +1,14 @@
 package es.pacocovesgarcia.padeldist.reservasMethods
 
-import android.content.Context
-import android.widget.CheckBox
 import android.widget.Spinner
 import entities.Pista
-import java.text.SimpleDateFormat
 
-suspend fun FilterResults() : List<Pista>
+suspend fun FilterResults(spinnerFecha:Spinner,spinnerHora:Spinner) : List<Pista>
 {
-   /* val fechaSeleccionada = spinnerFecha.selectedItem.toString()
-    val spinnerHora = spinnerHora.selectedItem.toString()*/
+    val fechaSeleccionada = spinnerFecha.selectedItem.toString()
+    val horaSeleccionada = spinnerHora.selectedItem.toString()
 
-    var resultados = mutableListOf<Pista>()
-
-    resultados = searchCourtDatabaseMethod() as MutableList<Pista>
+    val resultados = searchCourtDatabaseMethod(fechaSeleccionada,horaSeleccionada) as MutableList<Pista>
 
     return resultados
 }

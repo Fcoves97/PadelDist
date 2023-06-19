@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.navigation.NavigationView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/SideMenu"
     android:layout_width="200dp"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    android:background="@drawable/menu_style"
+    android:background="@color/lighterBrown"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.0"
@@ -23,7 +22,7 @@
             android:id="@+id/btnCloseMenu"
             android:layout_width="25dp"
             android:layout_height="108dp"
-            android:background="@color/customWhite"
+            android:background="@color/lightBrown"
             android:contentDescription="Close menu"
             android:src="@drawable/left_arrow"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +31,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.484" />
-
 
         <View
             android:layout_width="200dp"
@@ -50,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="PacoCoves"
-            android:textColor="@color/lightBrown"
+            android:textColor="@color/lighterBrown"
             android:textSize="22dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

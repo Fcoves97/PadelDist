@@ -34,7 +34,7 @@
     </View>
 
     <ImageView
-        android:id="@+id/ivUserImage"
+        android:id="@+id/ivUserImageSetting"
         android:layout_width="121dp"
         android:layout_height="114dp"
         app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
@@ -53,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
         app:layout_constraintEnd_toEndOf="@+id/vwRegister"
         app:layout_constraintHorizontal_bias="0.156"
-        app:layout_constraintStart_toEndOf="@+id/ivUserImage"
+        app:layout_constraintStart_toEndOf="@+id/ivUserImageSetting"
         app:layout_constraintTop_toTopOf="@+id/vwRegister"
         app:layout_constraintVertical_bias="0.234" />
 
@@ -68,7 +68,7 @@
         app:layout_constraintEnd_toEndOf="@+id/vwRegister"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="@+id/vwRegister"
-        app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
+        app:layout_constraintTop_toBottomOf="@+id/ivUserImageSetting"
         app:layout_constraintVertical_bias="0.079" />
 
     <ImageView
@@ -186,18 +186,47 @@
         app:layout_constraintTop_toBottomOf="@+id/tvNivelValue"
         app:layout_constraintVertical_bias="0.189" />
 
+    <ImageView
+        android:id="@+id/ivlogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/logout_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toStartOf="@+id/btnAplicar"
+        app:layout_constraintHorizontal_bias="0.133"
+        app:layout_constraintStart_toStartOf="@+id/vwRegister"
+        app:layout_constraintTop_toBottomOf="@+id/tvPartidasJugadas"
+        app:layout_constraintVertical_bias="0.88">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/tvLogOutText"
+        android:layout_width="94dp"
+        android:layout_height="24dp"
+        android:text="Cerrar sesión"
+        android:textColor="@color/customWhite"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
+        app:layout_constraintEnd_toStartOf="@+id/btnAplicar"
+        app:layout_constraintHorizontal_bias="0.194"
+        app:layout_constraintStart_toEndOf="@+id/ivlogout"
+        app:layout_constraintTop_toBottomOf="@+id/tvPartidasJugadas"
+        app:layout_constraintVertical_bias="0.88" />
+
     <Button
         android:id="@+id/btnAplicar"
         android:layout_width="127dp"
         android:layout_height="49dp"
         android:text="APLICAR"
         android:textSize="15dp"
+        android:layout_marginRight="5sp"
         app:layout_constraintBottom_toBottomOf="@+id/vwRegister"
         app:layout_constraintEnd_toEndOf="@+id/vwRegister"
-        app:layout_constraintHorizontal_bias="0.882"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/vwRegister"
         app:layout_constraintTop_toTopOf="@+id/vwRegister"
-        app:layout_constraintVertical_bias="0.955" />
+        app:layout_constraintVertical_bias="0.961" />
 
     <ImageButton
         android:id="@+id/btnOpenMenu"

@@ -15,6 +15,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -29,7 +32,8 @@ class UserScreen : AppCompatActivity() {
     private lateinit var btnOpenMenu: ImageButton
     private lateinit var dlMenu: DrawerLayout
     private lateinit var toolbar: Toolbar
-    private lateinit var ivUserImage : ImageView
+    private lateinit var ivUserImageSetting : ImageView
+    private lateinit var ivLogout : ImageView
     private lateinit var tvUserName : TextView
     private lateinit var tvCorreoValue : TextView
     private lateinit var tvLadoPistaValue : TextView
@@ -53,7 +57,8 @@ class UserScreen : AppCompatActivity() {
         btnOpenMenu = findViewById(R.id.btnOpenMenu)
         dlMenu = findViewById(R.id.dlMenu)
         toolbar = findViewById(R.id.toolbar)
-        ivUserImage = findViewById(R.id.ivUserImage)
+        ivUserImageSetting = findViewById(R.id.ivUserImageSetting)
+        ivLogout = findViewById(R.id.ivlogout)
         tvUserName = findViewById(R.id.tvUserName)
         tvCorreoValue = findViewById(R.id.tvCorreoValue)
         tvLadoPistaValue = findViewById(R.id.tvLadoPistaValue)
@@ -66,7 +71,7 @@ class UserScreen : AppCompatActivity() {
 
         //Establecer opciones del menú y toolbar
 
-        SetUpMenuAndToolbar(dlMenu,btnOpenMenu,sideMenu,ivUserImage,tvUserName,btncloseMenu,this)
+        SetUpMenuAndToolbar(dlMenu,btnOpenMenu,sideMenu,ivUserImageSetting,tvUserName,btncloseMenu,this)
 
         dlMenu.closeDrawer(GravityCompat.START)
         dlMenu.visibility = View.INVISIBLE
@@ -92,10 +97,18 @@ class UserScreen : AppCompatActivity() {
                 selectedImageUri = result.data?.data
                 selectedImageUri?.let { uri ->
                     // Utiliza el URI de la imagen seleccionada para cargarla en el ImageButton o ImageView
-                    ivUserImage.setImageURI(uri)
+                    Glide.with(this)
+                        .load(uri)
+                        .apply(RequestOptions().transform(CircleCrop()))
+                        .into(ivUserImageSetting)
                     isImageSelected = true
                 }
             }
+        }
+
+        ivLogout.setOnClickListener{
+            val intent = Intent(this, LogInScreen::class.java)
+            startActivity(intent)
         }
 
         btnAplicar.setOnClickListener{
@@ -112,7 +125,7 @@ class UserScreen : AppCompatActivity() {
 
                             // Actualizar el campo imagen_perfil del jugador
                             jugadorId?.let {
-                                jugadoresRef.child(it).child("imagen_perfil").setValue(selectedImageUri.toString())
+                                jugadoresRef.child(it).child("imagen_perfil").setValue(selectedImageUri.toString() )
                                     .addOnSuccessListener {
                                         JugadorSingletone.LoggedPlayer.imagen_perfil = selectedImageUri.toString()
                                         recreate()
@@ -139,7 +152,15 @@ class UserScreen : AppCompatActivity() {
     }
 
     private fun cargarDatosJugador() {
-        ivUserImage.setImageURI(JugadorSingletone.LoggedPlayer.imagen_perfil?.toUri())
+        if (JugadorSingletone.getLoggedPlayer().imagen_perfil != "") {
+            Glide.with(this)
+                .load(JugadorSingletone.LoggedPlayer.imagen_perfil?.toUri())
+                .apply(RequestOptions().transform(CircleCrop()))
+                .into(ivUserImageSetting)
+        } else {
+            // Si la conversión falla, puedes establecer una imagen de reemplazo o realizar alguna otra acción
+            ivUserImageSetting.setImageResource(R.drawable.default_user_image)
+        }
         tvCorreoValue.text = JugadorSingletone.LoggedPlayerMail
         tvUserName.text = JugadorSingletone.LoggedPlayer.nombre
         tvLadoPistaValue.text = JugadorSingletone.LoggedPlayer.lado_pista
